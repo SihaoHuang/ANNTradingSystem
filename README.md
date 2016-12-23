@@ -1,1 +1,2 @@
-# ANNTradingSystem
+# Advanced Machine Learning Trading System
+
