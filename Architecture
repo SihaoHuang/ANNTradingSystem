@@ -2,20 +2,28 @@ class Neuron
 class NeuralLayer
 class NeuralNetwork
 
-class Datafeed
+/****************************************/
+
+class Datafeed //Financial datafeed wrapper
   public boolean connect()
   public static Double getNewestPrice(String ticker)
   public static Double getNewestVolume(String ticker)
   public static Double getPE(String ticker)
   public static Double getCap(String ticker)
 
-class Stock
+class Stock //Represents each stock in the S&P500 index
   public Double getExpectedPrice() 
   public Double[] getHistoricPrice(String span)
 
-
-class Analysis 
+class Analysis
   public 
 
+/****************************************/
+
 class GUI
+-connect button to financial service
+-search bar for tickers and company name
+-displays fundemental and current pricing data
+-displays predicted price and confidence
+*Secondary goal: display chart with overlayed predicted price and current price
 
