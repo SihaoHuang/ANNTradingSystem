@@ -1,0 +1,21 @@
+class Neuron
+class NeuralLayer
+class NeuralNetwork
+
+class Datafeed
+  public boolean connect()
+  public static Double getNewestPrice(String ticker)
+  public static Double getNewestVolume(String ticker)
+  public static Double getPE(String ticker)
+  public static Double getCap(String ticker)
+
+class Stock
+  public Double getExpectedPrice() 
+  public Double[] getHistoricPrice(String span)
+
+
+class Analysis 
+  public 
+
+class GUI
+
