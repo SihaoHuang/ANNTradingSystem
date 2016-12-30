@@ -1,9 +1,11 @@
+import yahoofinance.YahooFinance;
+
 public class Datafeed{
 
-  public Datafeed(){
+  public static Double getNewestPrice(String ticker){
+    Stock stock = YahooFinance.get(ticker);
+    return stock.getQuote(true).getPrice();
   }
-
-  public static Double getNewestPrice(String ticker)
 
   public static Double getNewestVolume(String ticker)
 
@@ -14,10 +16,12 @@ public class Datafeed{
 }
 
 
+/*
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
+
 
 // inspired by http://stackoverflow.com/questions/9093000/read-csv-file-from-internet
 public class Yahoo_ReadCSVFromWebQuery {
@@ -39,3 +43,4 @@ public class Yahoo_ReadCSVFromWebQuery {
         }
     }
 }
+*/
