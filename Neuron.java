@@ -50,22 +50,29 @@ class Neuron{
 		output_prime = sigmoidPrime(collectSum);
 	}
 
-	public void backpropagate(){
+	public void adjustWeights(double learn_rate){
+		for (Neuron neuron : outputNeurons){
+			double calcWeightGrad = neuron.getDelta() * output;
+			Double currentWeight = outputWeights.get(neuron);
+			currentWeight = currentWeight - (learn_rate * calcWeightGrad);  // does this replace the weights hashmap correctly?
+		}
+	}
+
+	public void backpropagate(){  // calculate all deltas
 		// add errors from layer ahead
 		double cumDelta = 0; 
 		for (Neuron upperNeuron : outputNeurons){
-			cumDelta += this.getWeight(upperNeuron) * upperNeuron.getDelta() * upperNeuron.getOutput_prime();
+			cumDelta += this.getWeight(upperNeuron) * upperNeuron.getDelta();
 		}	
 
-		this.delta = cumDelta //* output_prime;  //cum weighted delta times output_prime equals delta
+		this.delta = cumDelta * output_prime; //* output_prime;  //cum weighted delta times output_prime equals delta
 
 	}
 
-	public void backpropagate(double delta){  // delta given by test example
+	public void backpropagate(double target){  // delta given by test example
 		// add errors from layer ahead
-		double cumDelta = delta; 
-		delta = cumDelta;
-		delta = cumDelta * 1; // * output_prime; ???
+		double noGoodName = output - target;   //derivative of cost when C = 1/2 (y - out)^2
+		this.delta = noGoodName * output_prime; 
 	}
 
 	public static void main(String[] args) {
@@ -91,6 +98,9 @@ class Neuron{
 	public double getOutput(){
 		return output;
 	}
+	public void setOutput(double x){
+		output = x;
+	}
 	public double getOutput_prime(){
 		return output_prime;
 	}
@@ -109,4 +119,3 @@ class Neuron{
 	}
 
 }
-
