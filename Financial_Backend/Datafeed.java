@@ -24,6 +24,10 @@ public class Datafeed{
     return out;
   }
 
+  public static Double[] getTimeSeries(String ticker){
+    Double[] out = new Double[]
+  }
+
   public static void main(String[] args){
       System.out.println(getNewestPrice("GOOG"));
       System.out.println(getNewestVolume("GOOG"));

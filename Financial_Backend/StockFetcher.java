@@ -27,9 +27,10 @@ public class StockFetcher {
 		double open = 0.0;
 		double previousClose = 0.0;
 		String exchange;
+
 		try { 
 			
-			// Retrieve CSV File
+			// Retrieve CSV file for fundementals
 			URL yahoo = new URL("http://finance.yahoo.com/d/quotes.csv?s="+ symbol + "&f=l1vr2ejkghm3j3nc4s7pox");
 			URLConnection connection = yahoo.openConnection(); 
 			InputStreamReader is = new InputStreamReader(connection.getInputStream());
@@ -56,6 +57,7 @@ public class StockFetcher {
 			previousClose = handleDouble(stockinfo[13]);
 			open = handleDouble(stockinfo[14]);
 			exchange = stockinfo[15].replace("\"", "");
+
 			
 		} catch (IOException e) {
 			Logger log = Logger.getLogger(StockFetcher.class.getName()); 
