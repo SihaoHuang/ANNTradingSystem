@@ -9,21 +9,23 @@ class NeuralNetwork{
 
 	public static void main(String[] args) {
 		NeuralNetwork a = new NeuralNetwork();
-		a.initializeNet(16,6,1,8);
+		a.initializeNet(10,7,2,5);
+		System.out.println(a);
+		//a.initializeNet(100,15,60,25);
+		
 		//System.out.println(a.getNeuron(0,0));	
 	}
 	public void initializeNeurons(int width, int depth, int outputLayer, int inputLayer){
 		
 		network = new Neuron[depth+2][width];
-		network[0] = new Neuron[outputLayer];
-		network[network.length-1] = new Neuron[inputLayer];
+		network[0] = new Neuron[inputLayer];
+		network[network.length-1] = new Neuron[outputLayer];
 		
 		for (int neuron = 0; neuron < inputLayer; neuron++){  // initialize inputLayer
-			System.out.println("allthese");
 			Neuron create = new Neuron();
 			network[0][neuron] = create;
 		}
-		for (int layer = 1; layer < depth - 1; layer++){      // initialize all hidden layers
+		for (int layer = 1; layer < depth + 1; layer++){      // initialize all hidden layers
 			for (int neuron = 0; neuron < width; neuron++){
 				Neuron create = new Neuron();
 				network[layer][neuron] = create;
@@ -31,7 +33,7 @@ class NeuralNetwork{
 		}
 		for (int neuron = 0; neuron < outputLayer; neuron++){ // initialize output layer
 			Neuron create = new Neuron();
-			network[depth+1][neuron] = create;
+			network[network.length - 1][neuron] = create;
 		}
 
 	}
@@ -58,23 +60,40 @@ class NeuralNetwork{
 
 	}
 
+	public String toString(){
+		String out = "";
+		for (int layer = 0; layer < network.length ; layer++){
+			for (Neuron neuron : network[layer]){
+				out += "[ ] ";
+			}
+			out += network[layer].length;
+			out += "\n";
+		}
+		return out;
+		
+	}
 	public void initializeNet(int width, int depth, int outputLayer, int inputLayer){  //intitialize a fully connected array of 
 		
-		this.initializeNeurons(width, depth, outputLayer, inputLayer);
+		this.initializeNeurons(width, depth, outputLayer, inputLayer); // initializeNet(10,7,2,5);
+		System.out.println(this);	
 		System.out.println(network[1].length);
 		System.out.println(network.length);
 		System.out.println(network[0].length);
 		System.out.println(network[network.length-1	].length);
 
-		//	this.connectLayerOut(0);
+		//System.out.println(network[1].length);
+		this.connectLayerOut(0);
 		System.out.println("got here");
-		for (int layer = 1; layer < network.length - 2 ; layer++){
-			
-			this.connectLayerOut(layer);
+		for (int layer = 1; layer < network.length - 1 ; layer++){
+			System.out.println(layer);
 			this.connectLayerIn(layer);
-			System.out.println("got here too");
+			System.out.println("in");			
+			this.connectLayerOut(layer);
+			System.out.println("out");
+	
+
 		}
-		//this.connectLayerIn(network.length - 1);
+		this.connectLayerIn(network.length - 2);
 
 	}
 
@@ -97,13 +116,15 @@ class NeuralNetwork{
 
 	public void connectLayerOut(int layer){            
 		for (Neuron neuron : network[layer]){
+			System.out.println(layer + 1);
 			Double weight = 1.;                              // change weights to random
 			neuron.addOut(network[layer + 1], weight);
 		}
-	}
+	}	
 
 	public void connectLayerIn(int layer){
 		for (Neuron neuron: network[layer]){
+			System.out.println(layer - 1);
 			neuron.addIn(network[layer - 1]);
 		}
 	}
