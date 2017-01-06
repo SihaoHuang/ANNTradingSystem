@@ -26,8 +26,13 @@ class Neuron{
 
 	public void addOut(Neuron[] outNeurons, Double new_weight){    //holds out-weights
 		for (Neuron connectNeuron : outNeurons){
-			outputNeurons.add(connectNeuron);
-			outputWeights.put(connectNeuron, new_weight);
+			if ( connectNeuron == null ){
+				System.out.println("null");
+			}
+			else{
+				outputNeurons.add(connectNeuron);
+				outputWeights.put(connectNeuron, new_weight);
+			}
 		}
 
 		
@@ -119,3 +124,4 @@ class Neuron{
 	}
 
 }
+
