@@ -131,4 +131,5 @@ class NeuralNetwork{
 	public Neuron getNeuron(int row, int col){
 		return network[row][col];
 	}
+
 }

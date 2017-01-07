@@ -38,7 +38,7 @@ public class GetTimeSeries {
 			
 	 }
 
-   public static ArrayList[] getTimeSeries(String ticker){
+   public static ArrayList<ArrayList<Double>> getTimeSeries(String ticker){
 
 		  setTime();
 
@@ -74,9 +74,9 @@ public class GetTimeSeries {
 				//System.out.println(Integer.toString(prices.size()));
 				//System.out.println(Integer.toString(volumes.size()));
 
-				ArrayList[] out = new ArrayList[2];
-				out[0] = prices;
-				out[1] = volumes;
+				ArrayList<ArrayList<Double>> out = new ArrayList<ArrayList<Double>>();
+				out.add(prices);
+				out.add(volumes);
 	
 				return out;
 

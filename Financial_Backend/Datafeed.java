@@ -1,4 +1,6 @@
-//Uses StockFetcher to obtain fundementals from Yahoo. YahooFinance API is used to obtain historic prices.
+import java.util.ArrayList;
+
+//Uses StockFetcher to obtain fundementals from Yahoo. 
 //Imports data from s&p500 csv file (for later developmental use)
 public class Datafeed{
 
@@ -12,25 +14,24 @@ public class Datafeed{
     return st.getVolume();
   }
 
-  public static Double[] getFundementals(String ticker){  // outputs [Pe, Eps, 52high, 52low, Marketcap,ShortRatio]
-    Double[] out = new Double[6]; 
+  public static ArrayList<Double> getFundementals(String ticker){  // outputs [Pe, Eps, 52high, 52low, Marketcap,ShortRatio]
+    ArrayList<Double> out = new ArrayList<Double>(); 
     NormalStock st = StockFetcher.getStock(ticker);
-    out[0] = st.getPe();
-    out[1] = st.getEps();
-    out[2] = st.getWeek52high();
-    out[3] = st.getWeek52low();
-    out[4] = st.getMarketcap();
-    out[5] = st.getShortRatio();
+    out.add(st.getPe());
+    out.add(st.getEps());
+    out.add(st.getWeek52high());
+    out.add(st.getWeek52low());
+    out.add(st.getMarketcap());
+    out.add(st.getShortRatio());
     return out;
   }
 
-  public static Double[] getTimeSeries(String ticker){
-    Double[] out = new Double[]
+  public static ArrayList<Double> getPriceSeries(String ticker){
+    return GetTimeSeries.getTimeSeries(ticker).get(0);
   }
 
-  public static void main(String[] args){
-      System.out.println(getNewestPrice("GOOG"));
-      System.out.println(getNewestVolume("GOOG"));
+  public static ArrayList<Double> getVolumeSeries(String ticker){
+    return GetTimeSeries.getTimeSeries(ticker).get(1);
   }
 
 }
