@@ -1,8 +1,32 @@
 import java.util.ArrayList;
-
+import java.io.*;
+ 
 //Uses StockFetcher to obtain fundementals from Yahoo. 
 //Imports data from s&p500 csv file (for later developmental use)
 public class Datafeed{
+
+  static ArrayList<String> tickers = new ArrayList<String>();
+  static ArrayList<String> names = new ArrayList<String>();
+  static ArrayList<String> sectors = new ArrayList<String>();
+
+  public static void loadStocks(){
+
+    try {
+      BufferedReader inputStream = new BufferedReader(new FileReader("s&p500.csv"));
+      String line = null;
+      while((line = inputStream.readLine()) != null) {
+        String[] buff = line.split(",");
+        tickers.add(buff[0]);
+        names.add(buff[0]);
+        sectors.add(buff[0]);
+      }
+    } catch (FileNotFoundException e) {
+      e.printStackTrace();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+
+  }
 
   public static Double getNewestPrice(String ticker){
     NormalStock st = StockFetcher.getStock(ticker);
@@ -34,4 +58,7 @@ public class Datafeed{
     return GetTimeSeries.getTimeSeries(ticker).get(1);
   }
 
+  public static void main(String[] args){
+    loadStocks();
+  }
 }
