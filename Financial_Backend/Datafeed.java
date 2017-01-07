@@ -58,6 +58,18 @@ public class Datafeed{
     return GetTimeSeries.getTimeSeries(ticker).get(1);
   }
 
+  public static ArrayList<String> getTickerList(){
+    return tickers;
+  }
+
+  public static ArrayList<String> getTickerList(){
+    return names;
+  }
+
+  public static ArrayList<String> getTickerList(){
+    return sectors;
+  }
+
   public static void main(String[] args){
     loadStocks();
   }
