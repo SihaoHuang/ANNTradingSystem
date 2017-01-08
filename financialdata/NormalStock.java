@@ -1,3 +1,5 @@
+package financialdata;
+
 public class NormalStock { 
 	
 	private String symbol; 

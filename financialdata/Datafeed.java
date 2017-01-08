@@ -1,3 +1,5 @@
+package financialdata;
+
 import java.util.ArrayList;
 import java.io.*;
  
@@ -12,13 +14,13 @@ public class Datafeed{
   public static void loadStocks(){
 
     try {
-      BufferedReader inputStream = new BufferedReader(new FileReader("s&p500.csv"));
+      BufferedReader inputStream = new BufferedReader(new FileReader("financialdata/s&p500.csv"));
       String line = null;
       while((line = inputStream.readLine()) != null) {
         String[] buff = line.split(",");
         tickers.add(buff[0]);
-        names.add(buff[0]);
-        sectors.add(buff[0]);
+        names.add(buff[1]);
+        sectors.add(buff[2]);
       }
     } catch (FileNotFoundException e) {
       e.printStackTrace();
@@ -62,15 +64,20 @@ public class Datafeed{
     return tickers;
   }
 
-  public static ArrayList<String> getTickerList(){
+  public static ArrayList<String> getNameList(){
     return names;
   }
 
-  public static ArrayList<String> getTickerList(){
+  public static ArrayList<String> getSectorList(){
     return sectors;
   }
 
-  public static void main(String[] args){
-    loadStocks();
+  public static String nameFromTicker(String ticker){
+    return names.get(tickers.indexOf(ticker));
   }
+
+  public static String sectorFromTicker(String ticker){
+    return sectors.get(tickers.indexOf(ticker));
+  }
+
 }

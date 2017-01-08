@@ -1,3 +1,5 @@
+package financialdata;
+
 import java.util.regex.Pattern;
 import java.util.logging.Level;
 import java.util.logging.Logger;

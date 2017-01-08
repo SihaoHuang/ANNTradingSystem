@@ -1,3 +1,5 @@
+package financialdata;
+
 import java.util.regex.Pattern;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -85,10 +87,5 @@ public class GetTimeSeries {
 					log.log(Level.SEVERE, e.toString(), e);
 					return null;
 				}
-   }
-
-   public static void main(String[] args){
-		 getTimeSeries("AAPL");
-		 setTime();
    }
 }
