@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Hashtable; 
 
 class Neuron{
-	public double output;
+	private double output;
 	private double output_prime;
 	public double delta;
 
@@ -20,16 +20,18 @@ class Neuron{
 	//private Hashtable<Neuron, Double> inputWeights = new Hashtable<Neuron, Double>(); // implement possibly redundant
 
 	public Neuron(){
-		bias = .1;
+		bias = .0;
 	}
 
 
 	public void addOut(Neuron[] outNeurons, Double new_weight){    //holds out-weights
+
 		for (Neuron connectNeuron : outNeurons){
 			if ( connectNeuron == null ){
 				System.out.println("null");
 			}
 			else{
+				new_weight = Math.random() * 2 - 1;
 				outputNeurons.add(connectNeuron);
 				outputWeights.put(connectNeuron, new_weight);
 			}
@@ -59,7 +61,8 @@ class Neuron{
 		for (Neuron neuron : outputNeurons){
 			double calcWeightGrad = neuron.getDelta() * output;
 			Double currentWeight = outputWeights.get(neuron);
-			currentWeight = currentWeight - (learn_rate * calcWeightGrad);  // does this replace the weights hashmap correctly?
+			Double nextWeight = currentWeight - (learn_rate * calcWeightGrad);  // does this replace the weights hashmap correctly?
+			outputWeights.put(neuron, nextWeight);
 		}
 	}
 

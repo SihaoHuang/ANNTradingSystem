@@ -9,28 +9,32 @@ class NeuralNetwork{
 
 	public static void main(String[] args) {
 		NeuralNetwork a = new NeuralNetwork();
-		a.initializeNet(16,1,1,3);
+		a.initializeNet(30,2,1,3);
 		System.out.println(a);
 		double[] t1 = {0.0,0.0,1.0};
 		double y1 = 0.0;
-		double[] t2 = {1.0,1.0,1.0};
+		double[] t2 = {0.0,1.0,1.0};
 		double y2 = 1.0;
 		double[] t3 = {1.0,0.0,1.0};
 		double y3 = 1.0;
-		double[] t4 = {0.0,1.0,1.0};
+		double[] t4 = {1.0,1.0,1.0};
 		double y4 = 0.0;
+
 
 		// Neuron finalNeuron = 
 		//System.out.println(a.network[network.length - 1][0]);
-		int iters = 1000;
-		int t = 300;
+		int iters = 10000;
+		int t = 1100;
+		double cost = 0;
 		for (int i = 0; i < iters; i++){
 			//System.out.println(i);
 			a.feedData(t1,y1);
 			if (i % t == 0){
+				System.out.println(i+"th iteration");
 				System.out.println(a.toStringOutLast());
 				System.out.println(y1);
 				System.out.println("--");
+				cost += Math.abs( Double.parseDouble(a.toStringOutLast()) - y1);
 			}
 
 			a.feedData(t2,y2);
@@ -38,6 +42,7 @@ class NeuralNetwork{
 				System.out.println(a.toStringOutLast());
 				System.out.println(y2);
 				System.out.println("--");
+				cost += Math.abs( Double.parseDouble(a.toStringOutLast()) - y2);
 			}
 
 			a.feedData(t3,y3);
@@ -45,12 +50,17 @@ class NeuralNetwork{
 				System.out.println(a.toStringOutLast());
 				System.out.println(y3);
 				System.out.println("--");
+				cost += Math.abs( Double.parseDouble(a.toStringOutLast()) - y3);
 			}
 
 			a.feedData(t4,y4);
 			if (i % t == 0){
 				System.out.println(a.toStringOutLast());
 				System.out.println(y4);
+				cost += Math.abs( Double.parseDouble(a.toStringOutLast()) - y4);
+				System.out.println("Cost (sum of errors):");
+				System.out.println(cost);
+				cost = 0;
 				System.out.println("============================================");
 			}
 		}
@@ -141,11 +151,6 @@ class NeuralNetwork{
 	public void initializeNet(int width, int depth, int outputLayer, int inputLayer){  //intitialize a fully connected array of 
 		
 		this.initializeNeurons(width, depth, outputLayer, inputLayer); // initializeNet(10,7,2,5);
-		System.out.println(this);	
-		System.out.println(network[1].length);
-		System.out.println(network.length);
-		System.out.println(network[0].length);
-		System.out.println(network[network.length-1	].length);
 
 		//System.out.println(network[1].length);
 		this.connectLayerOut(0);
@@ -182,7 +187,7 @@ class NeuralNetwork{
 
 	public void connectLayerOut(int layer){            
 		for (Neuron neuron : network[layer]){
-			System.out.println(layer + 1);
+
 			Double weight = Math.random() * 2 - 1;                              // change weights to random
 			neuron.addOut(network[layer + 1], weight);
 		}
@@ -190,7 +195,7 @@ class NeuralNetwork{
 
 	public void connectLayerIn(int layer){
 		for (Neuron neuron: network[layer]){
-			System.out.println(layer - 1);
+
 			neuron.addIn(network[layer - 1]);
 		}
 	}
