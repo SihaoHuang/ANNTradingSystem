@@ -22,52 +22,63 @@ public class Driver{
 		Datafeed.printFundementals(ticker);
     System.out.println(Arrays.toString(createInputs(ticker)));
 
-    NeuralNetwork a = new NeuralNetwork();
+  //   NeuralNetwork a = new NeuralNetwork();
 
-    a.initializeNet(16,1,1,3);
-		System.out.println(a);
-		double[] t1 = {0.0,0.0,1.0};
-		double y1 = 0.0;
-		double[] t2 = {1.0,1.0,1.0};
-		double y2 = 1.0;
-		double[] t3 = {1.0,0.0,1.0};
-		double y3 = 1.0;
-		double[] t4 = {0.0,1.0,1.0};
-		double y4 = 0.0;
+  //   a.initializeNet(16,1,1,3);
+		// System.out.println(a);
+		// double[] t1 = {0.0,0.0,1.0};
+		// double y1 = 0.0;
+		// double[] t2 = {1.0,1.0,1.0};
+		// double y2 = 1.0;
+		// double[] t3 = {1.0,0.0,1.0};
+		// double y3 = 1.0;
+		// double[] t4 = {0.0,1.0,1.0};
+		// double y4 = 0.0;
 
-		// Neuron finalNeuron = 
-		//System.out.println(a.network[network.length - 1][0]);
-		int iters = 1000;
-		int t = 300;
-		for (int i = 0; i < iters; i++){
-			//System.out.println(i);
-			a.feedData(t1,y1);
-			if (i % t == 0){
-				System.out.println(a.toStringOutLast());
-				System.out.println(y1);
-				System.out.println("--");
-			}
+		// // Neuron finalNeuron = 
+		// //System.out.println(a.network[network.length - 1][0]);
+		// double cost = 0.0;
 
-			a.feedData(t2,y2);
-			if (i % t == 0){
-				System.out.println(a.toStringOutLast());
-				System.out.println(y2);
-				System.out.println("--");
-			}
+		// int iters = 10000;
+		// int t = 3000;
+		// for (int i = 0; i < iters; i++){
+		// 	//System.out.println(i);
+		// 	a.feedData(t1,y1);
+		// 	if (i % t == 0){
+		// 		System.out.println(a.toStringOutLast());
+		// 		System.out.println(y1);
+		// 		System.out.println("--");
+		// 		//System.out.println(a.toStringOutLast.getClass().getName());
 
-			a.feedData(t3,y3);
-			if (i % t == 0){
-				System.out.println(a.toStringOutLast());
-				System.out.println(y3);
-				System.out.println("--");
-			}
+		// 		cost += Math.abs( Double.parseDouble(a.toStringOutLast()) - y1);
+		// 	}
 
-			a.feedData(t4,y4);
-			if (i % t == 0){
-				System.out.println(a.toStringOutLast());
-				System.out.println(y4);
-				System.out.println("============================================");
-      }
-    }
+		// 	a.feedData(t2,y2);
+		// 	if (i % t == 0){
+		// 		System.out.println(a.toStringOutLast());
+		// 		System.out.println(y2);
+		// 		System.out.println("--");
+		// 		cost += Math.abs( Double.parseDouble(a.toStringOutLast()) - y2);
+
+		// 	}
+
+		// 	a.feedData(t3,y3);
+		// 	if (i % t == 0){
+		// 		System.out.println(a.toStringOutLast());
+		// 		System.out.println(y3);
+		// 		System.out.println("--");
+		// 		cost += Math.abs( Double.parseDouble(a.toStringOutLast()) - y3);
+		// 	}
+
+		// 	a.feedData(t4,y4);
+		// 	if (i % t == 0){
+		// 		System.out.println(a.toStringOutLast());
+		// 		System.out.println(y4);
+		// 		cost += Math.abs( Double.parseDouble(a.toStringOutLast()) - y4);
+		// 		System.out.println(cost);
+		// 		cost = 0.0;
+		// 		System.out.println("============================================");
+  //     }
+  //   }
   }
 }
