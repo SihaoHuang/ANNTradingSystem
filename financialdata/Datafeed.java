@@ -80,4 +80,22 @@ public class Datafeed{
     return sectors.get(tickers.indexOf(ticker));
   }
 
+  public static void printFundementals(String ticker){
+    NormalStock st = StockFetcher.getStock(ticker);
+		System.out.println("Price: " + st.getPrice());
+		System.out.println("Volume: " + st.getVolume()); 
+		System.out.println("P/E: " + st.getPe());
+		System.out.println("EPS: " + st.getEps());
+		System.out.println("Year Low: " + st.getWeek52low());
+		System.out.println("Year High: " + st.getWeek52high());
+		System.out.println("Day Low: " + st.getDaylow());
+		System.out.println("Day High: " + st.getDayhigh());
+		System.out.println("50 Day Moving Av: " + st.getMovingav50day());
+		System.out.println("Market Cap: " + st.getMarketcap());
+		System.out.println("The currency is: " + st.getCurrency());
+		System.out.println("The short ratio is: " + st.getShortRatio());
+		System.out.println("The previous close was: " + st.getPreviousClose());
+		System.out.println("The open for today was: " + st.getOpen());
+		System.out.println("The exchange is " + st.getExchange());
+  }
 }

@@ -14,14 +14,17 @@ public class Driver{
 
   public static void main(String[] args){
 
+		String ticker = args[0];
     Datafeed.loadStocks(); //remember to load stocks whenever Datafeed is used!
-    System.out.println(Datafeed.nameFromTicker("GOOG"));
-    System.out.println(Datafeed.sectorFromTicker("GOOG"));
-    System.out.println(Arrays.toString(createInputs("GOOG")));
+
+    System.out.println(Datafeed.nameFromTicker(ticker));
+    System.out.println(Datafeed.sectorFromTicker(ticker));
+		Datafeed.printFundementals(ticker);
+    System.out.println(Arrays.toString(createInputs(ticker)));
 
     NeuralNetwork a = new NeuralNetwork();
 
-    	a.initializeNet(16,1,1,3);
+    a.initializeNet(16,1,1,3);
 		System.out.println(a);
 		double[] t1 = {0.0,0.0,1.0};
 		double y1 = 0.0;
