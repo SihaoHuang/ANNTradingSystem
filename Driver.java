@@ -7,8 +7,8 @@ public class Driver{
   public static Double[] createInputs(String ticker){
     ArrayList<Double> out = new ArrayList<Double>();
     out.addAll(Datafeed.getFundementals(ticker));
-    out.addAll(Datafeed.getPriceSeries(ticker));
-    out.addAll(Datafeed.getVolumeSeries(ticker));
+		out.addAll(Convolutions.gaussianNormalization(Datafeed.getPriceSeries(ticker)));
+		out.addAll(Convolutions.gaussianNormalization(Datafeed.getVolumeSeries(ticker)));
     return out.toArray(new Double[out.size()]);
   }
 
