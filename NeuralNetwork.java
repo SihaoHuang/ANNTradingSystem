@@ -7,7 +7,7 @@ class NeuralNetwork{
 	public NeuralNetwork(){
 	}
 
-	public static void main(String[] args) {
+/*	public static void main(String[] args) {
 		NeuralNetwork a = new NeuralNetwork();
 		a.initializeNet(30,2,1,3);
 		System.out.println(a);
@@ -63,7 +63,7 @@ class NeuralNetwork{
 				cost = 0;
 				System.out.println("============================================");
 			}
-		}
+		}*/
 		// for (int layer = 1; layer < a.network.length; layer++){
 		// 	a.fireLayer(layer);
 		// }
