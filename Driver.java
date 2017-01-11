@@ -19,15 +19,29 @@ public class Driver{
 
     System.out.println(Datafeed.nameFromTicker(ticker));
     System.out.println(Datafeed.sectorFromTicker(ticker));
-		Datafeed.printFundementals(ticker);
-		
-    ArrayList<Double> inputs = createInputs(ticker);
-
-		//Feed data 
-		
-		NeuralNetwork a = new NeuralNetwork();
-		a.initializeNet(30,2,1,3);
-
-  
+		Datafeed.printFundementals(ticker);  
   }
+
+	public static void feedAll(){
+		NeuralNetwork a = new NeuralNetwork();
+		a.initializeNet(30,2,1,206);
+		int iters = 10000;
+		int displayDivisor = 1100;
+		double cost = 0;
+		for (int i = 0; i < iters; i++){
+			int tickerCount;
+			while (tickerCount < Datafeed.getTickerList().size()){ //goes through an trains on all stocks in the S&P500 inex
+				ArrayList<Double> inputs = createInputs(getTickerList().get(tickerCount));
+				Double[] trainingData = inputs.toArray(new Double[input.size()]);
+				Double output = Datafeed.getNewestPrice(); //uses newest price as the target value; may need preprocessing
+				a.feedData(trainingData,output);
+				if (i % displayDivisor == 0){
+					System.out.println(i+"th iteration");
+					System.out.println(a.toStringOutLast());
+					System.out.println("--");
+					cost += Math.abs(Double.parseDouble(a.toStringOutLast()) - output);
+				}
+			}
+		}
+	}
 }
