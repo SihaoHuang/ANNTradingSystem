@@ -73,7 +73,7 @@ class NeuralNetwork{
 		// a.initializeNet(100,15,60,25);
 		
 		//System.out.println(a.getNeuron(0,0));	
-	}
+	//}
 	public void initializeNeurons(int width, int depth, int outputLayer, int inputLayer){
 		
 		network = new Neuron[depth+2][width];

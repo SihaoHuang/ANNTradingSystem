@@ -20,6 +20,7 @@ public class Driver{
     System.out.println(Datafeed.nameFromTicker(ticker));
     System.out.println(Datafeed.sectorFromTicker(ticker));
 		Datafeed.printFundementals(ticker);  
+		feedAll();
   }
 
 	public static void feedAll(){
@@ -31,8 +32,7 @@ public class Driver{
 		for (int i = 0; i < iters; i++){
 			int tickerCount;
 			while (tickerCount < Datafeed.getTickerList().size()){ //goes through an trains on all stocks in the S&P500 inex
-				ArrayList<Double> inputs = createInputs(getTickerList().get(tickerCount));
-				Double[] trainingData = inputs.toArray(new Double[input.size()]);
+				Double[] trainingData = createInputs(Datafeed.getTickerList().get(tickerCount));
 				Double output = Datafeed.getNewestPrice(); //uses newest price as the target value; may need preprocessing
 				a.feedData(trainingData,output);
 				if (i % displayDivisor == 0){
