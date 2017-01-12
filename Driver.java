@@ -4,12 +4,12 @@ import java.util.Arrays;
 
 public class Driver{
 
-  public static Double[] createInputs(String ticker){
+  public static double[] createInputs(String ticker){
     ArrayList<Double> out = new ArrayList<Double>();
     out.addAll(Datafeed.getFundementals(ticker));
 		out.addAll(Convolutions.gaussianNormalization(Datafeed.getPriceSeries(ticker)));
 		out.addAll(Convolutions.gaussianNormalization(Datafeed.getVolumeSeries(ticker)));
-    return out.toArray(new Double[out.size()]);
+		return typeCastDouble(out.toArray(new Double[out.size()]));
   }
 
   public static void main(String[] args){
@@ -30,10 +30,10 @@ public class Driver{
 		int displayDivisor = 1100;
 		double cost = 0;
 		for (int i = 0; i < iters; i++){
-			int tickerCount;
+			int tickerCount = 0;
 			while (tickerCount < Datafeed.getTickerList().size()){ //goes through an trains on all stocks in the S&P500 inex
-				Double[] trainingData = createInputs(Datafeed.getTickerList().get(tickerCount));
-				Double output = Datafeed.getNewestPrice(); //uses newest price as the target value; may need preprocessing
+				double[] trainingData = createInputs(Datafeed.getTickerList().get(tickerCount));
+				double output = Datafeed.getNewestPrice(Datafeed.getTickerList().get(tickerCount)); //uses newest price as the target value; may need preprocessing
 				a.feedData(trainingData,output);
 				if (i % displayDivisor == 0){
 					System.out.println(i+"th iteration");
@@ -44,4 +44,14 @@ public class Driver{
 			}
 		}
 	}
+
+	public static double[] typeCastDouble(Double[] in){
+		double[] out = new double[in.length];
+		int i = 0;
+		while(i<in.length){
+			out[i] = in[i];
+		}
+		return out;
+	}
+	
 }
