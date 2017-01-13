@@ -33,13 +33,12 @@ public class Driver{
 	public static void feedAll(int width,int depth,int out,int in){
 		NeuralNetwork a = new NeuralNetwork();
 		a.initializeNet(30,2,1,206); 
-		int iters = 10;
-		int displayDivisor = 1;
+		int iters = 100;
+		int displayDivisor = 11;
 		double cost = 0;
 		for (int i = 0; i < iters; i++){
 			int tickerCount = 0;
 			while (tickerCount < Datafeed.getTickerList().size()){ //goes through an trains on all stocks in the S&P500 inex
-				System.out.println("testing");
 				double[] trainingData = createInputs(Datafeed.getTickerList().get(tickerCount));
 				double output = Datafeed.getNewestPrice(Datafeed.getTickerList().get(tickerCount)); //uses newest price as the target value; may need preprocessing
 				a.feedData(trainingData,output);
@@ -58,6 +57,7 @@ public class Driver{
 		int i = 0;
 		while(i<in.length){
 			out[i] = in[i];
+			i++;
 		}
 		return out;
 	}
