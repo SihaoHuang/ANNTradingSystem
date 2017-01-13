@@ -15,23 +15,31 @@ public class Driver{
   public static void main(String[] args){
 
 		String ticker = args[0];
-    Datafeed.loadStocks(); //remember to load stocks whenever Datafeed is used!
 
-    System.out.println(Datafeed.nameFromTicker(ticker));
-    System.out.println(Datafeed.sectorFromTicker(ticker));
-		Datafeed.printFundementals(ticker);  
-		feedAll();
+		if(ticker.equals("train")){
+			Datafeed.loadStocks(); 
+			feedAll(30,2,1,206);
+		}
+		
+		else{
+			Datafeed.loadStocks(); //remember to load stocks whenever Datafeed is used!
+
+			System.out.println(Datafeed.nameFromTicker(ticker));
+			System.out.println(Datafeed.sectorFromTicker(ticker));
+			Datafeed.printFundementals(ticker);  
+		}
   }
 
-	public static void feedAll(){
+	public static void feedAll(int width,int depth,int out,int in){
 		NeuralNetwork a = new NeuralNetwork();
-		a.initializeNet(30,2,1,206);
-		int iters = 10000;
-		int displayDivisor = 1100;
+		a.initializeNet(30,2,1,206); 
+		int iters = 10;
+		int displayDivisor = 1;
 		double cost = 0;
 		for (int i = 0; i < iters; i++){
 			int tickerCount = 0;
 			while (tickerCount < Datafeed.getTickerList().size()){ //goes through an trains on all stocks in the S&P500 inex
+				System.out.println("testing");
 				double[] trainingData = createInputs(Datafeed.getTickerList().get(tickerCount));
 				double output = Datafeed.getNewestPrice(Datafeed.getTickerList().get(tickerCount)); //uses newest price as the target value; may need preprocessing
 				a.feedData(trainingData,output);
