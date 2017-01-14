@@ -1,5 +1,7 @@
 //NeuralNetwork.java
 
+import java.util.ArrayList;
+
 class NeuralNetwork{
 	
 	private Neuron[][] network;
@@ -7,74 +9,91 @@ class NeuralNetwork{
 	public NeuralNetwork(){
 	}
 
-/*	public static void main(String[] args) {
+	public static void main(String[] args) {                 
 		NeuralNetwork a = new NeuralNetwork();
-		a.initializeNet(30,2,1,3);
-		System.out.println(a);
-		double[] t1 = {0.0,0.0,1.0};
-		double y1 = 0.0;
-		double[] t2 = {0.0,1.0,1.0};
-		double y2 = 1.0;
-		double[] t3 = {1.0,0.0,1.0};
-		double y3 = 1.0;
-		double[] t4 = {1.0,1.0,1.0};
-		double y4 = 0.0;
+		a.initializeNet(30,2,10,784);
+
+		HData handData = new HData();
+		handData.loadData();           // load up handwritten dataset 
+
+		int numIters = 100;
+		for (int i = 0; i < numIters; i++){        // every iteration: feed every data example loaded 
+			a.feedDataExamples(handData.dataExamples);  //handData.dataExamples is an ArrayList with double[][] example entries (each example contains 2 double[] arrays)
+		}
 
 
-		// Neuron finalNeuron = 
-		//System.out.println(a.network[network.length - 1][0]);
-		int iters = 10000;
-		int t = 1100;
-		double cost = 0;
-		for (int i = 0; i < iters; i++){
-			//System.out.println(i);
-			a.feedData(t1,y1);
-			if (i % t == 0){
-				System.out.println(i+"th iteration");
-				System.out.println(a.toStringOutLast());
-				System.out.println(y1);
-				System.out.println("--");
-				cost += Math.abs( Double.parseDouble(a.toStringOutLast()) - y1);
+	}
+
+
+	// feedDataExamples takes an ArrayList [ {data-array, label-array},{data-array, label-array}...]
+	public void feedDataExamples(ArrayList<double[][]> data){ 
+		int first = 0;
+		for (double[][] example : data){
+			this.feedData(example[0],example[1]);
+			if (first == 0){ 
+			System.out.println("test:" + this.toStringOutLast());
+			String out = "";
+			for (double i : example[1]){
+				out += "[" + i + ",] "; 
 			}
-
-			a.feedData(t2,y2);
-			if (i % t == 0){
-				System.out.println(a.toStringOutLast());
-				System.out.println(y2);
-				System.out.println("--");
-				cost += Math.abs( Double.parseDouble(a.toStringOutLast()) - y2);
+			System.out.println("label:" + out);
 			}
-
-			a.feedData(t3,y3);
-			if (i % t == 0){
-				System.out.println(a.toStringOutLast());
-				System.out.println(y3);
-				System.out.println("--");
-				cost += Math.abs( Double.parseDouble(a.toStringOutLast()) - y3);
-			}
-
-			a.feedData(t4,y4);
-			if (i % t == 0){
-				System.out.println(a.toStringOutLast());
-				System.out.println(y4);
-				cost += Math.abs( Double.parseDouble(a.toStringOutLast()) - y4);
-				System.out.println("Cost (sum of errors):");
-				System.out.println(cost);
-				cost = 0;
-				System.out.println("============================================");
-			}
-		}*/
-		// for (int layer = 1; layer < a.network.length; layer++){
-		// 	a.fireLayer(layer);
-		// }
-
-		// a.initializeNet();
-		//System.out.println(a.toStringOut());
-		// a.initializeNet(100,15,60,25);
+		}
+	}
+	public void feedData(double[] example, double[] targets){  //performs forwardprop then backprop
 		
-		//System.out.println(a.getNeuron(0,0));	
-	//}
-	public void initializeNeurons(int width, int depth, int outputLayer, int inputLayer){
+		for (int i = 0; i < example.length; i++){ //set neuron.output to example[@postion] (inputs) 
+			network[0][i].setOutput(example[i]);  // input neurons only contain attribute neuron.output
+		}
+
+		for (int layer = 1; layer < network.length; layer++){ // fire every layer except 0th
+			this.fireLayer(layer);
+		}
+		for (int input = 0; input < targets.length; input++){ // tell every output neuron its error
+			network[network.length - 1][input].backpropagate(targets[input]);
+		}
+		for (int layer = network.length - 2; layer >= 0; layer--){ // caluculate deltas for remaining layers
+			this.backpropLayer(layer);
+		}
+	
+		for (int layer = 0; layer < network.length - 1; layer++){ // update outputting-weights for every layer except last
+			this.changeWeightLayer(layer);
+		}
+		// if (i% 250 == 0){
+			// System.out.println(this.toStringOut());
+		// }
+	}
+	public String toStringOutLast(){ // return readable list of output layer's outputs
+		String out = "";
+		for (Neuron neuron : network[network.length-1]){
+			out += "["+Math.round(neuron.getOutput() * 100)/100.+"] ";
+		}
+		return out;
+	}
+	public String toStringOut(){   // returns array of entire 2-d network, with output shown in each neuron
+		String out = "";
+		for (int layer = 0; layer < network.length ; layer++){
+			for (Neuron neuron : network[layer]){
+				out += "["+Math.round(neuron.getOutput() * 1000)/1000.+"] ";
+			}
+			out += network[layer].length;
+			out += "\n";
+		}
+		return out;
+	}
+	public String toString(){  //return structured 2-d array of "blank" neruons
+		String out = "";
+		for (int layer = 0; layer < network.length ; layer++){
+			for (Neuron neuron : network[layer]){
+				out += "[ ] ";
+			}
+			out += network[layer].length;
+			out += "\n";
+		}
+		return out;
+		
+	}
+	public void initializeNeurons(int width, int depth, int outputLayer, int inputLayer){ // instantiates all neurons from dims
 		
 		network = new Neuron[depth+2][width];
 		network[0] = new Neuron[inputLayer];
@@ -97,62 +116,10 @@ class NeuralNetwork{
 
 	}
 
-	public void feedData(double[] example, double target){  //performs forwardprop then backprop
-		for (int i = 0; i < example.length; i++){ 
-			// inputNeuron = network[0][i];   
-			// inputNeuron.setOutput(example[i]);
-			network[0][i].setOutput(example[i]);         // input layer only contains neuron.output
-		}
-		// int iters = 1000;
-		// for (int i = 0; i < iters; i++){
-		for (int layer = 1; layer < network.length; layer++){
-			this.fireLayer(layer);
-		}
-		network[network.length - 1][0].backpropagate(target);    // backprop error in output
-		for (int layer = network.length - 2; layer >= 0; layer--){ // bug?                      //layer > 1 ?
-			this.backpropLayer(layer);
-		}
-	
-		for (int layer = 0; layer < network.length - 1; layer++){
-			this.changeWeightLayer(layer);
-		}
-		// if (i% 250 == 0){
-			// System.out.println(this.toStringOut());
-		// }
-		// }
-
-	}
-	public String toStringOutLast(){
-		return ""+network[network.length - 1][0].getOutput();
-	}
-	public String toStringOut(){
-		String out = "";
-		for (int layer = 0; layer < network.length ; layer++){
-			for (Neuron neuron : network[layer]){
-				out += "["+Math.round(neuron.getOutput() * 1000)/1000.+"] ";
-			}
-			out += network[layer].length;
-			out += "\n";
-		}
-		return out;
-	}
-	public String toString(){
-		String out = "";
-		for (int layer = 0; layer < network.length ; layer++){
-			for (Neuron neuron : network[layer]){
-				out += "[ ] ";
-			}
-			out += network[layer].length;
-			out += "\n";
-		}
-		return out;
-		
-	}
 	public void initializeNet(int width, int depth, int outputLayer, int inputLayer){  //intitialize a fully connected array of 
 		
 		this.initializeNeurons(width, depth, outputLayer, inputLayer); // initializeNet(10,7,2,5);
 
-		//System.out.println(network[1].length);
 		this.connectLayerOut(0);
 
 		for (int layer = 1; layer < network.length - 1 ; layer++){
@@ -160,10 +127,8 @@ class NeuralNetwork{
 			this.connectLayerIn(layer);
 			
 			this.connectLayerOut(layer);
-
-	
-
 		}
+
 		this.connectLayerIn(network.length - 1);
 
 	}
@@ -175,21 +140,21 @@ class NeuralNetwork{
 	}
 	public void backpropLayer(int layer){
 		for (Neuron neuron : network[layer]){
-			neuron.backpropagate();
+			neuron.backpropagate();             //sets deltas
 		}
 	}
 
 	public void changeWeightLayer(int layer){
 		for (Neuron neuron : network[layer]){
-			neuron.adjustWeights(.1);
+			neuron.adjustWeights(.1);                /// here adjust learning rate
 		}
 	}
 
 	public void connectLayerOut(int layer){            
 		for (Neuron neuron : network[layer]){
 
-			Double weight = Math.random() * 2 - 1;                              // change weights to random
-			neuron.addOut(network[layer + 1], weight);
+			Double weight = Math.random() - 0.5 ;      //sets weights to random value (-0.5, 0.5)                        
+			neuron.addOut(network[layer + 1], weight); 
 		}
 	}	
 
