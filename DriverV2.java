@@ -4,10 +4,19 @@ import java.util.Arrays;
 
 public class Driver{
 
-	static ArrayList<double[]> masterTraining = new ArrayList<double[]>(); // use this to store all data offline first!
-	static ArrayList<Double> masterTarget = new ArrayList<Double>();
+	ArrayList<double[]> masterTraining = new ArrayList<double[]>(); // data is read and stored offline
+	ArrayList<Double> masterTarget = new ArrayList<Double>();
+  NeuralNetwork nn;
+  int iterations = 0;
+	
+  public void Driver(int width, int depth, int iters){
+    nn = new NeuralNetwork();
+    nn.initializeNet(width,depth,1,206); 
+    iterations = iters;
+    Datafeed.loadStocks(); 
+  }
 
-  public static double[] createInputs(String ticker){
+  public double[] createInputs(String ticker){
     ArrayList<Double> out = new ArrayList<Double>();
     out.addAll(Datafeed.getFundementals(ticker));
 		out.addAll(Convolutions.gaussianNormalization(Datafeed.getPriceSeries(ticker)));
@@ -15,7 +24,7 @@ public class Driver{
 		return typeCastDouble(out.toArray(new Double[out.size()]));
   }
 
-	public static void writeMasterData(){
+	public void writeMasterData(){
 		int tickerCount = 0;
 		while (tickerCount < Datafeed.getTickerList().size()){ 
 			masterTraining.add(createInputs(Datafeed.getTickerList().get(tickerCount)));
@@ -24,19 +33,16 @@ public class Driver{
 		}	
 	}
 
-	public static void feedAll(int width,int depth,int out,int in){
-		NeuralNetwork a = new NeuralNetwork();
-		a.initializeNet(80,3,1,206); 
-		int iters = 100;
+	public void feedAll(){
 		int displayDivisor = 1;
 		double cost = 0;
-		for (int i = 0; i < iters; i++){
+		for (int i = 0; i < iterations; i++){
 			int tickerCount = 0;
 			while (tickerCount < Datafeed.getTickerList().size()){ //goes through an trains on all stocks in the S&P500 inex
-				a.feedData(masterTraining.get(tickerCount),masterTarget.get(tickerCount));
-				cost += Math.abs(Double.parseDouble(a.toStringOutLast()) - masterTarget.get(tickerCount));
+				nn.feedData(masterTraining.get(tickerCount),masterTarget.get(tickerCount));
+				cost += Math.abs(Double.parseDouble(nn.toStringOutLast()) - masterTarget.get(tickerCount));
 				if (i % displayDivisor == 0){
-					System.out.println("Output is: " + a.toStringOutLast());
+					System.out.println("Output is: " + nn.toStringOutLast());
 					System.out.println("Target is: " + masterTarget.get(tickerCounnt));
 				}
 				tickerCount ++;
@@ -63,17 +69,9 @@ public class Driver{
 		String ticker = args[0];
 
 		if(ticker.equals("train")){
-			Datafeed.loadStocks(); 
-			writeMasterData();
-			feedAll(80,2,1,206);
-		}
-		
-		else{
-			Datafeed.loadStocks(); //remember to load stocks whenever Datafeed is used!
-
-			System.out.println(Datafeed.nameFromTicker(ticker));
-			System.out.println(Datafeed.sectorFromTicker(ticker));
-			Datafeed.printFundementals(ticker);  
+      DriverV2 network = new DriverV2(80,2,100);
+			network.writeMasterData();
+			network.feedAll();
 		}
   }
 
