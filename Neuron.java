@@ -9,20 +9,15 @@ class Neuron{
 	private double output_prime;
 	public double delta;
 
-
 	private ArrayList<Neuron> inputNeurons = new ArrayList< Neuron > ( );
 	private ArrayList<Neuron> outputNeurons = new ArrayList< Neuron > ( );
-	//private Neuron[] inputNeurons;  // implement             ''               'input neuron'
-	//private Neuron[] outputNeurons; // implement  <--- array containing every 'output neuron'
 	 
-	private Hashtable<Neuron, Double> outputWeights = new Hashtable<Neuron, Double>();  // where to intitialize hashtable 'neuron : weight' ?
-	private double bias;
-	//private Hashtable<Neuron, Double> inputWeights = new Hashtable<Neuron, Double>(); // implement possibly redundant
+	private Hashtable<Neuron, Double> outputWeights = new Hashtable<Neuron, Double>();  // Hashtable containing outgoing-weights keyed by their respective neuron
+	private double bias;  //unimplemented 
 
 	public Neuron(){
 		bias = .0;
 	}
-
 
 	public void addOut(Neuron[] outNeurons, Double new_weight){    //holds out-weights
 
@@ -31,7 +26,6 @@ class Neuron{
 				System.out.println("null");
 			}
 			else{
-				new_weight = Math.random() * 2 - 1;
 				outputNeurons.add(connectNeuron);
 				outputWeights.put(connectNeuron, new_weight);
 			}
@@ -50,9 +44,8 @@ class Neuron{
 		for (Neuron element : inputNeurons){
 			collectSum += ( element.getOutput() * element.getWeight(this) );
 		}
-		collectSum += bias;
+		collectSum += bias;  // bias always zero currently
 		
-		//output = collectSum;
 		output = sigmoid(collectSum);
 		output_prime = sigmoidPrime(collectSum);
 	}
@@ -61,7 +54,7 @@ class Neuron{
 		for (Neuron neuron : outputNeurons){
 			double calcWeightGrad = neuron.getDelta() * output;
 			Double currentWeight = outputWeights.get(neuron);
-			Double nextWeight = currentWeight - (learn_rate * calcWeightGrad);  // does this replace the weights hashmap correctly?
+			Double nextWeight = currentWeight - (learn_rate * calcWeightGrad); 
 			outputWeights.put(neuron, nextWeight);
 		}
 	}
@@ -82,27 +75,7 @@ class Neuron{
 		double noGoodName = output - target;   //derivative of cost when C = 1/2 (y - out)^2
 		this.delta = noGoodName * output_prime; 
 	}
-
-	public static void main(String[] args) {
-		 Neuron n0 = new Neuron();
-		// System.out.println(sigmoid(0));
-		// System.out.println(sigmoidPrime(0));
-		Neuron n1 = new Neuron();
-		Neuron[] neuronArray = {n1};
-		Double twelve = new Double(.2);
-		n0.addOut(neuronArray, twelve);
-		//System.out.println(n0.getWeight(n1));
-		n0.output = .3;
-		Neuron[] neuronArray2 = {n0};	
-		n1.addIn(neuronArray2);
-		n1.fire();
-		System.out.println(n1.getOutput());
-		System.out.println(n1.getOutput_prime());
-		n1.backpropagate(.4);
-		System.out.println(n1.getDelta());
-		n0.backpropagate();
-		System.out.println(n0.getDelta());
-	}
+	
 	public double getOutput(){
 		return output;
 	}
