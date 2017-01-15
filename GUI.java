@@ -11,8 +11,10 @@ import javax.swing.JButton;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
 import javax.swing.JSlider;
+import java.awt.*;
+import java.awt.event.*;
 
-public class GUI extends JFrame {
+public class GUI extends JFrame implements ActionListener{
   static GUI theGUI;
 
   JPanel pnPanel0;
@@ -55,6 +57,15 @@ public class GUI extends JFrame {
     theGUI = new GUI();
   } 
 
+  public void actionPerformed(ActionEvent e) {
+    if ("Search".equals(e.getActionCommand())){     
+    }
+    if ("Train Network".equals(e.getActionCommand())){     
+    }
+    if ("Load Stocks".equals(e.getActionCommand())){     
+    }
+  }
+
   public GUI() 
   {
     super("Neural network based stock price projection");
@@ -66,8 +77,7 @@ public class GUI extends JFrame {
 
     String [][]dataFundementals = new String[][] { new String[] {"Voume", "21"}, 
                                                   new String[] {"PE Ratio", "22"}, 
-                                                  new String[] {"Earnings per share", 
-                                                  "23"}, 
+                                                  new String[] {"Earnings per share", "23"}, 
                                                   new String[] {"52 Wk low", ""}, 
                                                   new String[] {"52 Wk high", ""}, 
                                                   new String[] {"Today's low", ""}, 
@@ -90,6 +100,8 @@ public class GUI extends JFrame {
     pnPanel0.add( tbFundementals );
 
     btSearch = new JButton("Search");
+    btSearch.addActionListener(this);
+    btSearch.setActionCommand("Search"); //
     gbcPanel0.gridx = 13;
     gbcPanel0.gridy = 13;
     gbcPanel0.gridwidth = 4;
@@ -186,102 +198,106 @@ public class GUI extends JFrame {
     pnPanel0.add( tfName );
 
     btTrainNetwork = new JButton( "Train Network"  );
-   gbcPanel0.gridx = 15;
-   gbcPanel0.gridy = 19;
-   gbcPanel0.gridwidth = 4;
-   gbcPanel0.gridheight = 2;
-   gbcPanel0.fill = GridBagConstraints.BOTH;
-   gbcPanel0.weightx = 1;
-   gbcPanel0.weighty = 0;
-   gbcPanel0.anchor = GridBagConstraints.NORTH;
-   gbPanel0.setConstraints( btTrainNetwork, gbcPanel0 );
-   pnPanel0.add( btTrainNetwork );
+    btTrainNetwork.addActionListener(this);
+    btTrainNetwork.setActionCommand("Train Network"); //
+    gbcPanel0.gridx = 15;
+    gbcPanel0.gridy = 19;
+    gbcPanel0.gridwidth = 4;
+    gbcPanel0.gridheight = 2;
+    gbcPanel0.fill = GridBagConstraints.BOTH;
+    gbcPanel0.weightx = 1;
+    gbcPanel0.weighty = 0;
+    gbcPanel0.anchor = GridBagConstraints.NORTH;
+    gbPanel0.setConstraints( btTrainNetwork, gbcPanel0 );
+    pnPanel0.add( btTrainNetwork );
 
-   sdWidth = new JSlider( );
-   gbcPanel0.gridx = 5;
-   gbcPanel0.gridy = 16;
-   gbcPanel0.gridwidth = 9;
-   gbcPanel0.gridheight = 1;
-   gbcPanel0.fill = GridBagConstraints.BOTH;
-   gbcPanel0.weightx = 1;
-   gbcPanel0.weighty = 0;
-   gbcPanel0.anchor = GridBagConstraints.NORTH;
-   gbPanel0.setConstraints( sdWidth, gbcPanel0 );
-   pnPanel0.add( sdWidth );
+    sdWidth = new JSlider( );
+    gbcPanel0.gridx = 5;
+    gbcPanel0.gridy = 16;
+    gbcPanel0.gridwidth = 9;
+    gbcPanel0.gridheight = 1;
+    gbcPanel0.fill = GridBagConstraints.BOTH;
+    gbcPanel0.weightx = 1;
+    gbcPanel0.weighty = 0;
+    gbcPanel0.anchor = GridBagConstraints.NORTH;
+    gbPanel0.setConstraints( sdWidth, gbcPanel0 );
+    pnPanel0.add( sdWidth );
 
-   lbWidth = new JLabel( "Width"  );
-   gbcPanel0.gridx = 1;
-   gbcPanel0.gridy = 16;
-   gbcPanel0.gridwidth = 3;
-   gbcPanel0.gridheight = 1;
-   gbcPanel0.fill = GridBagConstraints.BOTH;
-   gbcPanel0.weightx = 1;
-   gbcPanel0.weighty = 1;
-   gbcPanel0.anchor = GridBagConstraints.NORTH;
-   gbPanel0.setConstraints( lbWidth, gbcPanel0 );
-   pnPanel0.add( lbWidth );
+    lbWidth = new JLabel( "Width"  );
+    gbcPanel0.gridx = 1;
+    gbcPanel0.gridy = 16;
+    gbcPanel0.gridwidth = 3;
+    gbcPanel0.gridheight = 1;
+    gbcPanel0.fill = GridBagConstraints.BOTH;
+    gbcPanel0.weightx = 1;
+    gbcPanel0.weighty = 1;
+    gbcPanel0.anchor = GridBagConstraints.NORTH;
+    gbPanel0.setConstraints( lbWidth, gbcPanel0 );
+    pnPanel0.add( lbWidth );
 
-   lbDepth = new JLabel( "Depth"  );
-   gbcPanel0.gridx = 1;
-   gbcPanel0.gridy = 18;
-   gbcPanel0.gridwidth = 3;
-   gbcPanel0.gridheight = 1;
-   gbcPanel0.fill = GridBagConstraints.BOTH;
-   gbcPanel0.weightx = 1;
-   gbcPanel0.weighty = 1;
-   gbcPanel0.anchor = GridBagConstraints.NORTH;
-   gbPanel0.setConstraints( lbDepth, gbcPanel0 );
-   pnPanel0.add( lbDepth );
+    lbDepth = new JLabel( "Depth"  );
+    gbcPanel0.gridx = 1;
+    gbcPanel0.gridy = 18;
+    gbcPanel0.gridwidth = 3;
+    gbcPanel0.gridheight = 1;
+    gbcPanel0.fill = GridBagConstraints.BOTH;
+    gbcPanel0.weightx = 1;
+    gbcPanel0.weighty = 1;
+    gbcPanel0.anchor = GridBagConstraints.NORTH;
+    gbPanel0.setConstraints( lbDepth, gbcPanel0 );
+    pnPanel0.add( lbDepth );
 
-   sdDepth = new JSlider( );
-   sdDepth.setValue( 6 );
-   gbcPanel0.gridx = 5;
-   gbcPanel0.gridy = 18;
-   gbcPanel0.gridwidth = 9;
-   gbcPanel0.gridheight = 1;
-   gbcPanel0.fill = GridBagConstraints.BOTH;
-   gbcPanel0.weightx = 1;
-   gbcPanel0.weighty = 0;
-   gbcPanel0.anchor = GridBagConstraints.NORTH;
-   gbPanel0.setConstraints( sdDepth, gbcPanel0 );
-   pnPanel0.add( sdDepth );
+    sdDepth = new JSlider( );
+    sdDepth.setValue( 6 );
+    gbcPanel0.gridx = 5;
+    gbcPanel0.gridy = 18;
+    gbcPanel0.gridwidth = 9;
+    gbcPanel0.gridheight = 1;
+    gbcPanel0.fill = GridBagConstraints.BOTH;
+    gbcPanel0.weightx = 1;
+    gbcPanel0.weighty = 0;
+    gbcPanel0.anchor = GridBagConstraints.NORTH;
+    gbPanel0.setConstraints( sdDepth, gbcPanel0 );
+    pnPanel0.add( sdDepth );
 
-   lbIterations = new JLabel( "Iterations"  );
-   gbcPanel0.gridx = 1;
-   gbcPanel0.gridy = 20;
-   gbcPanel0.gridwidth = 3;
-   gbcPanel0.gridheight = 1;
-   gbcPanel0.fill = GridBagConstraints.BOTH;
-   gbcPanel0.weightx = 1;
-   gbcPanel0.weighty = 1;
-   gbcPanel0.anchor = GridBagConstraints.NORTH;
-   gbPanel0.setConstraints( lbIterations, gbcPanel0 );
-   pnPanel0.add( lbIterations );
+    lbIterations = new JLabel( "Iterations"  );
+    gbcPanel0.gridx = 1;
+    gbcPanel0.gridy = 20;
+    gbcPanel0.gridwidth = 3;
+    gbcPanel0.gridheight = 1;
+    gbcPanel0.fill = GridBagConstraints.BOTH;
+    gbcPanel0.weightx = 1;
+    gbcPanel0.weighty = 1;
+    gbcPanel0.anchor = GridBagConstraints.NORTH;
+    gbPanel0.setConstraints( lbIterations, gbcPanel0 );
+    pnPanel0.add( lbIterations );
 
-   sdIterations = new JSlider( );
-   sdIterations.setValue( 6 );
-   gbcPanel0.gridx = 5;
-   gbcPanel0.gridy = 20;
-   gbcPanel0.gridwidth = 9;
-   gbcPanel0.gridheight = 1;
-   gbcPanel0.fill = GridBagConstraints.BOTH;
-   gbcPanel0.weightx = 1;
-   gbcPanel0.weighty = 0;
-   gbcPanel0.anchor = GridBagConstraints.NORTH;
-   gbPanel0.setConstraints( sdIterations, gbcPanel0 );
-   pnPanel0.add( sdIterations );
+    sdIterations = new JSlider( );
+    sdIterations.setValue( 6 );
+    gbcPanel0.gridx = 5;
+    gbcPanel0.gridy = 20;
+    gbcPanel0.gridwidth = 9;
+    gbcPanel0.gridheight = 1;
+    gbcPanel0.fill = GridBagConstraints.BOTH;
+    gbcPanel0.weightx = 1;
+    gbcPanel0.weighty = 0;
+    gbcPanel0.anchor = GridBagConstraints.NORTH;
+    gbPanel0.setConstraints( sdIterations, gbcPanel0 );
+    pnPanel0.add( sdIterations );
 
-   btLoadStocks = new JButton( "Load Stocks"  );
-   gbcPanel0.gridx = 15;
-   gbcPanel0.gridy = 16;
-   gbcPanel0.gridwidth = 4;
-   gbcPanel0.gridheight = 2;
-   gbcPanel0.fill = GridBagConstraints.BOTH;
-   gbcPanel0.weightx = 1;
-   gbcPanel0.weighty = 0;
-   gbcPanel0.anchor = GridBagConstraints.NORTH;
-   gbPanel0.setConstraints( btLoadStocks, gbcPanel0 );
-   pnPanel0.add( btLoadStocks );
+    btLoadStocks = new JButton( "Load Stocks"  );
+    btLoadStocks.addActionListener(this);
+    btLoadStocks.setActionCommand("Load Stocks"); //
+    gbcPanel0.gridx = 15;
+    gbcPanel0.gridy = 16;
+    gbcPanel0.gridwidth = 4;
+    gbcPanel0.gridheight = 2;
+    gbcPanel0.fill = GridBagConstraints.BOTH;
+    gbcPanel0.weightx = 1;
+    gbcPanel0.weighty = 0;
+    gbcPanel0.anchor = GridBagConstraints.NORTH;
+    gbPanel0.setConstraints( btLoadStocks, gbcPanel0 );
+    pnPanel0.add( btLoadStocks );
 
     setDefaultCloseOperation( EXIT_ON_CLOSE );
 
