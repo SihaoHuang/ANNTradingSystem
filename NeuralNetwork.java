@@ -63,10 +63,35 @@ class NeuralNetwork{
 			// System.out.println(this.toStringOut());
 		// }
 	}
+
+	public void feedData(double[] example, double target){  //performs forwardprop then backprop
+		
+		for (int i = 0; i < example.length; i++){ //set neuron.output to example[@postion] (inputs) 
+			network[0][i].setOutput(example[i]);  // input neurons only contain attribute neuron.output
+		}
+
+		for (int layer = 1; layer < network.length; layer++){ // fire every layer except 0th
+			this.fireLayer(layer);
+		}
+		for (int input = 0; input < 1; input++){ // tell every output neuron its error
+			network[network.length - 1][input].backpropagate(target);
+		}
+		for (int layer = network.length - 2; layer >= 0; layer--){ // caluculate deltas for remaining layers
+			this.backpropLayer(layer);
+		}
+	
+		for (int layer = 0; layer < network.length - 1; layer++){ // update outputting-weights for every layer except last
+			this.changeWeightLayer(layer);
+		}
+		// if (i% 250 == 0){
+			// System.out.println(this.toStringOut());
+		// }
+	}
+
 	public String toStringOutLast(){ // return readable list of output layer's outputs
 		String out = "";
 		for (Neuron neuron : network[network.length-1]){
-			out += "["+Math.round(neuron.getOutput() * 100)/100.+"] ";
+			out += Math.round(neuron.getOutput() * 100)/100.;
 		}
 		return out;
 	}

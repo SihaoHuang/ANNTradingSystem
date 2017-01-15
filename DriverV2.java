@@ -2,14 +2,14 @@ import financialdata.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class Driver{
+public class DriverV2{
 
 	ArrayList<double[]> masterTraining = new ArrayList<double[]>(); // data is read and stored offline
 	ArrayList<Double> masterTarget = new ArrayList<Double>();
   NeuralNetwork nn;
   int iterations = 0;
 	
-  public void Driver(int width, int depth, int iters){
+  public DriverV2(int width, int depth, int iters){
     nn = new NeuralNetwork();
     nn.initializeNet(width,depth,1,206); 
     iterations = iters;
@@ -28,7 +28,7 @@ public class Driver{
 		int tickerCount = 0;
 		while (tickerCount < Datafeed.getTickerList().size()){ 
 			masterTraining.add(createInputs(Datafeed.getTickerList().get(tickerCount)));
-			masterTarget.add(Datafeed.getNewestPrice(Datafeed.getTickerList().get(tickerCount))/10000);
+			masterTarget.add(Datafeed.getNewestPrice(Datafeed.getTickerList().get(tickerCount))/1000);
 			tickerCount ++;
 		}	
 	}
@@ -43,7 +43,7 @@ public class Driver{
 				cost += Math.abs(Double.parseDouble(nn.toStringOutLast()) - masterTarget.get(tickerCount));
 				if (i % displayDivisor == 0){
 					System.out.println("Output is: " + nn.toStringOutLast());
-					System.out.println("Target is: " + masterTarget.get(tickerCounnt));
+					System.out.println("Target is: " + masterTarget.get(tickerCount));
 				}
 				tickerCount ++;
 			}
@@ -69,7 +69,7 @@ public class Driver{
 		String ticker = args[0];
 
 		if(ticker.equals("train")){
-      DriverV2 network = new DriverV2(80,2,100);
+      DriverV2 network = new DriverV2(80,2,10000);
 			network.writeMasterData();
 			network.feedAll();
 		}
