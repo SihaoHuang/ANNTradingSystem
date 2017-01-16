@@ -15,6 +15,9 @@ public class DriverV2{
     iterations = iters;
     Datafeed.loadStocks(); 
   }
+	public void loadStocks(){
+		Datafeed.loadStocks(); 
+	}
 
   public double[] createInputs(String ticker){
     ArrayList<Double> out = new ArrayList<Double>();

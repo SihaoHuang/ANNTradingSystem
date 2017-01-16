@@ -11,7 +11,7 @@ import java.net.URLConnection;
 
 public class StockFetcher {  
 	
-	static NormalStock getStock(String symbol) {  
+	public static NormalStock getStock(String symbol) {  
 		String sym = symbol.toUpperCase();
 		double price = 0.0;
 		int volume = 0;
