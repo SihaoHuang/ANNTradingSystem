@@ -35,6 +35,15 @@ public class DriverV2{
 			tickerCount ++;
 		}	
 	}
+	
+	public ArrayList<Double>[] writeTestData(){
+		ArrayList<Double> out = new ArrayList<Double>();
+		int tickerCount = 0;
+		while (tickerCount < Datafeed.getTickerList().size()){
+			out.add(createInputs(Datafeed.getTickerList().get(tickerCount)));
+		}
+		return out;
+	}
 
 	public void feedAll(){
 		int displayDivisor = 1;
