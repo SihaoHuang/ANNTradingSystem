@@ -10,7 +10,7 @@ The network is trained with the processed input set to a output value, and is re
 <b>Instructions:</b> <br>
 Compile and run Terminal.java. Instructions will be presented. This allows access of equity mode (financial datafeed and neural network), handwriting recognition mode, and GUI mode. Note that training the network will take a very long period of time, typically ranging from 1 hour to 10 hours. <br>
 
-<b>Known bug list:</b>
+<b>Known bug list:</b> <br> 
 -Terminal.java does not catch any wrong input formats or invalid user inputs
 
 
