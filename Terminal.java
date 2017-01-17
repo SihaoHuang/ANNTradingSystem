@@ -42,6 +42,7 @@ public class Terminal {
 				else if (input.equals("neural network")) {
                     System.out.println();
                     System.out.println("(WARNING: network make take multiple hours to run)");
+                    System.out.println("The network has to be trained before predictions can be made.");
 
                     System.out.println("Input network width");
                     terminalInput = new Scanner(System.in);
@@ -60,7 +61,19 @@ public class Terminal {
 					DriverV2 network = new DriverV2(width,depth,iters);
 					network.writeMasterData();
 					System.out.println("Training complete.");
-				}
+                    boolean runNetwork = true;
+                    while (runNetwork) {
+                        System.out.println("Ask the network which direction it thinks the price would move towards by providing it with a ticker. Else exit.");
+                        terminalInput = new Scanner(System.in);
+                        String askTicker = terminalInput.nextLine();
+                        if (askTicker.equals("exit")) {
+                            runNetwork = false;
+                            terminalInput = new Scanner(System.in);
+           		 	        input = terminalInput.nextLine();
+                        }
+                        else network.giveRecommendation(askTicker);
+                    }
+                }
 
                 else{
                     // Scanner tickerInput = new Scanner(System.in);

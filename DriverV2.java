@@ -127,7 +127,7 @@ public class DriverV2{
 		String ticker = args[0];
 
 		if(ticker.equals("train")){
-      		DriverV2 network = new DriverV2(60,1,100);
+      DriverV2 network = new DriverV2(60,1,100);
 			network.writeMasterData();
 			//network.writeTestData();             // here write master test data pls
 
