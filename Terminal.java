@@ -60,6 +60,7 @@ public class Terminal {
 
 					DriverV2 network = new DriverV2(width,depth,iters);
 					network.writeMasterData();
+                    network.feedAll();
 					System.out.println("Training complete.");
                     boolean runNetwork = true;
                     while (runNetwork) {
@@ -71,7 +72,7 @@ public class Terminal {
                             terminalInput = new Scanner(System.in);
            		 	        input = terminalInput.nextLine();
                         }
-                        else network.giveRecommendation(askTicker);
+                        else System.out.println(network.giveRecommendation(askTicker));
                     }
                 }
 
@@ -105,31 +106,15 @@ public class Terminal {
         }
 
         if (input.equals("handwriting recognition")) {
+            String[] arguments = new String[1];
+            HandwritingNeuralNetwork.main(arguments);
             terminalInput = new Scanner(System.in);
             input = terminalInput.nextLine();
-            if (input.equals("exit")) runApplet = false;
-            else{
-                HData a = new HData();
-		        a.loadData();
-		        a.loadData2();
-		        a.loadData3();
-		        a.loadData4();
-		        a.loadData5();
-		        a.loadData6();
-		        a.loadData7();
-		        a.loadData8();
-		        System.out.println(a.dataExamples);
-            }
         }
 
         if (input.equals("GUI")) {
-            System.out.println("Launch GUI?(under construction) Otherwise exit.");
-            terminalInput = new Scanner(System.in);
-            input = terminalInput.nextLine();
-            if (input.equals("exit")) runApplet = false;
-            else {
-                GUI theGUI = new GUI();
-            }
+            System.out.println("GUI is under construction.");
+            GUI theGUI = new GUI();
         }
 
     }

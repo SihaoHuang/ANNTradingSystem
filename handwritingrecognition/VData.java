@@ -1,3 +1,5 @@
+package handwritingrecognition;
+
 import java.util.ArrayList;
 
 class VData{

@@ -10,6 +10,7 @@ public class DriverV2{
 	ArrayList<double[]> masterTestData = new ArrayList<double[]>();
 	ArrayList<Double> masterTestTarget = new ArrayList<Double>();
 
+	ArrayList<double[]> masterStockData = new ArrayList<double[]>();
 
 
   NeuralNetwork nn;
@@ -29,6 +30,7 @@ public class DriverV2{
 		out.addAll(Convolutions.gaussianNormalization(Datafeed.getVolumeSeries(ticker)));
 		return typeCastDouble(out.toArray(new Double[out.size()]));
   }
+
 	public void writeMasterData(){
 		int tickerCount = 0;
 		while (tickerCount < 400){ 
@@ -45,6 +47,11 @@ public class DriverV2{
 			masterTestTarget.add(Datafeed.getNewestPrice(Datafeed.getTickerList().get(tickerCount))/1000);
 			tickerCount ++;
 		}	
+	}
+
+	public void writeStockData(){
+		masterStockData.addAll(masterTraining);
+		masterStockData.addAll(masterTestData);
 	}
 
 	public void feedAll(){
@@ -123,19 +130,20 @@ public class DriverV2{
 		return out;
 	}
 
-	// public String giveRecommendation(String ticker){
-	// 	//check if valid ticker
-	// 	double[] stockdata; // fetches stock data
-	// 	double prediction = nn.feedDataAsk(stockdata);
-	// 	String action = "";
-	// 	if (prediction > 0){
-	// 		action = "BUY";
-	// 	}
-	// 	else{
-	// 		action = "SELL";
-	// 	}
-	// 	return "Our recommendation for "+ ticker + " is to " + action;
-	// }
+	public String giveRecommendation(String ticker){
+		writeStockData();
+		//check if valid ticker
+		double[] stockdata = masterStockData.get(Datafeed.getTickerList().indexOf(ticker));
+		double prediction = nn.feedDataAsk(stockdata);
+		String action = "";
+		if (prediction > 0){
+			action = "BUY";
+		}
+		else{
+			action = "SELL";
+		}
+		return "Our recommendation for "+ ticker + " is to " + action;
+	}
 	
 	public static void main(String[] args){
 

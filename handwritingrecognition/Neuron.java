@@ -1,4 +1,4 @@
-//javaNN.java
+package handwritingrecognition;
 
 import java.lang.Math;
 import java.util.ArrayList;

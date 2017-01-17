@@ -1,16 +1,17 @@
-//NeuralNetwork.java
+package handwritingrecognition;
+//HandwritingNeuralNetwork.java
 
 import java.util.ArrayList;
 
-class NeuralNetwork{
+public class HandwritingNeuralNetwork{
 	
 	private Neuron[][] network;
 
-	public NeuralNetwork(){
+	public HandwritingNeuralNetwork(){
 	}
 
 	public static void main(String[] args) {                 
-		NeuralNetwork a = new NeuralNetwork();
+		HandwritingNeuralNetwork a = new HandwritingNeuralNetwork();
 		a.initializeNet(60,1,10,784);
 
 		HData handData = new HData();
@@ -34,6 +35,7 @@ class NeuralNetwork{
 			a.feedDataExamples(handData.dataExamples);  //handData.dataExamples is an ArrayList with double[][] example entries (each example contains 2 double[] arrays)
 			if (i % 100 == 0){
 				System.out.println("Test Accuracy:");
+				System.out.println("The following data is given in the format (predicted digit, actual digit)")
 				System.out.println(a.testAccuracy(vandData.dataExamples));	
 			}
 		}

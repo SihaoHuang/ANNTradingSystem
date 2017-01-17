@@ -1,7 +1,7 @@
-//handwrittenData
+package handwritingrecognition;
 import java.util.ArrayList;
 
-class HData{
+public class HData{
 	
 	public ArrayList<double[][]> dataExamples = new ArrayList<double[][]>();
 
