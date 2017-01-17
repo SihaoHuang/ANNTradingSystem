@@ -16,7 +16,8 @@ class Neuron{
 	private double bias;  //unimplemented 
 
 	public Neuron(){
-		bias = .0;
+		// bias = Math.random()/14.0 - 1.0/28.0;
+		bias = Math.random()/14.0 - 1.0/28.0;
 	}
 
 	public void addOut(Neuron[] outNeurons, Double new_weight){    //holds out-weights
@@ -26,8 +27,9 @@ class Neuron{
 				System.out.println("null");
 			}
 			else{
+				Double weight = Math.random() * .02 - .01;  //change weighths here
 				outputNeurons.add(connectNeuron);
-				outputWeights.put(connectNeuron, new_weight);
+				outputWeights.put(connectNeuron, weight);
 			}
 		}
 
@@ -58,7 +60,9 @@ class Neuron{
 			outputWeights.put(neuron, nextWeight);
 		}
 	}
-
+	public void adjustBias(double learn_rate){
+		bias -= delta; 
+	}
 	public void backpropagate(){  // calculate all deltas
 		// add errors from layer ahead
 		double cumDelta = 0; 
@@ -75,7 +79,7 @@ class Neuron{
 		double noGoodName = output - target;   //derivative of cost when C = 1/2 (y - out)^2
 		this.delta = noGoodName * output_prime; 
 	}
-	
+
 	public double getOutput(){
 		return output;
 	}

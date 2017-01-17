@@ -9,20 +9,37 @@ class NeuralNetwork{
 	public NeuralNetwork(){
 	}
 
-	public static void main(String[] args) {                 
-		NeuralNetwork a = new NeuralNetwork();
-		a.initializeNet(30,2,10,784);
+	// public static void main(String[] args) {                 
+	// 	NeuralNetwork a = new NeuralNetwork();
+	// 	a.initializeNet(30,1,10,784);
 
-		HData handData = new HData();
-		handData.loadData();           // load up handwritten dataset 
+	// 	HData handData = new HData();
+	// 	handData.loadData();           // load up handwritten dataset
+	// 	handData.loadData();
+	// 	handData.loadData2();
+	// 	handData.loadData3();
+	// 	handData.loadData4();
+	// 	handData.loadData5();
+	// 	handData.loadData6();
+	// 	handData.loadData7();
+	// 	handData.loadData8();
 
-		int numIters = 100;
-		for (int i = 0; i < numIters; i++){        // every iteration: feed every data example loaded 
-			a.feedDataExamples(handData.dataExamples);  //handData.dataExamples is an ArrayList with double[][] example entries (each example contains 2 double[] arrays)
-		}
+	// 	VData vandData = new VData();
+	// 	vandData.loadData9();           // load up handwritten validation dataset
+	// 	vandData.loadData10();
+
+	// 	int numIters = 1000;
+	// 	for (int i = 0; i < numIters; i++){        // every iteration: feed every data example loaded 
+			
+	// 		a.feedDataExamples(handData.dataExamples);  //handData.dataExamples is an ArrayList with double[][] example entries (each example contains 2 double[] arrays)
+	// 		if (i % 100 == 0){
+	// 		System.out.println(a.testAccuracy(vandData.dataExamples));	
+	// 		}
+	// 	}
+		
 
 
-	}
+	// }
 
 
 	// feedDataExamples takes an ArrayList [ {data-array, label-array},{data-array, label-array}...]
@@ -31,14 +48,68 @@ class NeuralNetwork{
 		for (double[][] example : data){
 			this.feedData(example[0],example[1]);
 			if (first == 0){ 
-			System.out.println("test:" + this.toStringOutLast());
-			String out = "";
-			for (double i : example[1]){
-				out += "[" + i + ",] "; 
-			}
-			System.out.println("label:" + out);
-			}
+			// System.out.println("test:" + this.toStringOutLast());
+			// String out = "";
+			// for (double i : example[1]){
+			// 	out += "[" + i + ",] "; 
+			// }
+			// System.out.println("label:" + out);
+			 }
 		}
+	}
+
+	public double testAccuracy(ArrayList<double[][]> data){
+		int accuracy = 0;
+		int total = 0;
+		for (double[][] example : data){
+
+			for (int i = 0; i < example[0].length; i++){ //set neuron.output to example[@postion] (inputs) 
+				network[0][i].setOutput(example[0][i]);  // input neurons only contain attribute neuron.output
+			}
+
+			for (int layer = 1; layer < network.length; layer++){ // fire every layer except 0th
+				this.fireLayer(layer);
+			}
+			
+			int indexNet = 0;
+			int indexLabel = 0;
+			double max = 0;
+			for (Neuron i : network[network.length-1]){
+				if (i.getOutput() > max){
+					max = i.getOutput();
+				}
+			}
+			for (int i = 0; i < network[network.length-1].length; i++){
+				if (max == network[network.length-1][i].getOutput()){
+					indexNet = i;
+				}
+			}
+			for (int i = 0; i < example[1].length; i++){
+				if (1.0 == example[1][i]){
+					indexLabel = i;
+				}
+			}
+			System.out.println("("+indexNet+","+indexLabel+")");
+			if (indexNet == indexLabel){
+				accuracy += 1;
+				System.out.println("truey");
+			}
+			total+= 1;
+
+
+			// for (int i = 0; i < network[network.length-1].length; i++){
+
+			// }
+
+		}
+		return accuracy * 1.0 / total;
+	}
+
+	public double testAccuracyIn(ArrayList<double[][]> data){
+		double accurate = 0.0;
+		double total = 0.0;
+		
+		return accurate / total;
 	}
 	public void feedData(double[] example, double[] targets){  //performs forwardprop then backprop
 		
@@ -58,36 +129,12 @@ class NeuralNetwork{
 	
 		for (int layer = 0; layer < network.length - 1; layer++){ // update outputting-weights for every layer except last
 			this.changeWeightLayer(layer);
+			this.changeBiasLayer(layer+1);
 		}
 		// if (i% 250 == 0){
 			// System.out.println(this.toStringOut());
 		// }
 	}
-
-	public void feedData(double[] example, double target){  //performs forwardprop then backprop
-		
-		for (int i = 0; i < example.length; i++){ //set neuron.output to example[@postion] (inputs) 
-			network[0][i].setOutput(example[i]);  // input neurons only contain attribute neuron.output
-		}
-
-		for (int layer = 1; layer < network.length; layer++){ // fire every layer except 0th
-			this.fireLayer(layer);
-		}
-		for (int input = 0; input < 1; input++){ // tell every output neuron its error
-			network[network.length - 1][input].backpropagate(target);
-		}
-		for (int layer = network.length - 2; layer >= 0; layer--){ // caluculate deltas for remaining layers
-			this.backpropLayer(layer);
-		}
-	
-		for (int layer = 0; layer < network.length - 1; layer++){ // update outputting-weights for every layer except last
-			this.changeWeightLayer(layer);
-		}
-		// if (i% 250 == 0){
-			// System.out.println(this.toStringOut());
-		// }
-	}
-
 	public String toStringOutLast(){ // return readable list of output layer's outputs
 		String out = "";
 		for (Neuron neuron : network[network.length-1]){
@@ -171,14 +218,20 @@ class NeuralNetwork{
 
 	public void changeWeightLayer(int layer){
 		for (Neuron neuron : network[layer]){
-			neuron.adjustWeights(.1);                /// here adjust learning rate
+			neuron.adjustWeights(.5);                /// here adjust learning rate
+		}
+	}
+
+	public void changeBiasLayer(int layer){
+		for (Neuron neuron : network[layer]){
+			neuron.adjustBias(.5);                      // adjust learn rate 
 		}
 	}
 
 	public void connectLayerOut(int layer){            
 		for (Neuron neuron : network[layer]){
 
-			Double weight = Math.random() - 0.5 ;      //sets weights to random value (-0.5, 0.5)                        
+			Double weight = Math.random() * .02 ;      //sets weights to random value (-0.5, 0.5)                        
 			neuron.addOut(network[layer + 1], weight); 
 		}
 	}	

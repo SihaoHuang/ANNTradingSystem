@@ -15,9 +15,6 @@ public class DriverV2{
     iterations = iters;
     Datafeed.loadStocks(); 
   }
-	public void loadStocks(){
-		Datafeed.loadStocks(); 
-	}
 
   public double[] createInputs(String ticker){
     ArrayList<Double> out = new ArrayList<Double>();
@@ -35,34 +32,61 @@ public class DriverV2{
 			tickerCount ++;
 		}	
 	}
-	
-	public ArrayList<Double>[] writeTestData(){
-		ArrayList<Double> out = new ArrayList<Double>();
-		int tickerCount = 0;
-		while (tickerCount < Datafeed.getTickerList().size()){
-			out.add(createInputs(Datafeed.getTickerList().get(tickerCount)));
-		}
-		return out;
-	}
 
 	public void feedAll(){
 		int displayDivisor = 1;
-		double cost = 0;
+		double[] costHistory = new double[iterations];
+		double[] accuracyInHistory = new double[iterations];
+		double[] accuracyOutHistory = new double[iterations];
+		double cost = 0.0;
+		int numCorrectInSample=0;
+		int numCorrectOutSample=0;
+		int numTotal=0;
+		double accuracyInSample = 0.0;
+		double accuracyOutSample = 0.0;
+
 		for (int i = 0; i < iterations; i++){
 			int tickerCount = 0;
 			while (tickerCount < Datafeed.getTickerList().size()){ //goes through an trains on all stocks in the S&P500 inex
-				nn.feedData(masterTraining.get(tickerCount),masterTarget.get(tickerCount));
-				cost += Math.abs(Double.parseDouble(nn.toStringOutLast()) - masterTarget.get(tickerCount));
+				double[] target = new double[] {masterTarget.get(tickerCount) + .5};
+
+				nn.feedData(masterTraining.get(tickerCount),target);
+				double signHypothesis = Math.signum(Double.parseDouble(nn.toStringOutLast())-.51); //prints hypothesis Y
+				System.out.println("~~~~");
+				System.out.println(signHypothesis);
+				if (signHypothesis == Math.signum(target[0]-.5)){
+					numCorrectInSample += 1;
+				}
+				numTotal +=1;
+				System.out.println("~~~~");
+				cost += Math.abs(Double.parseDouble(nn.toStringOutLast()) - target[0]);
+				
 				if (i % displayDivisor == 0){
 					System.out.println("Output is: " + nn.toStringOutLast());
-					System.out.println("Target is: " + masterTarget.get(tickerCount));
+					System.out.println("Target is: " + (masterTarget.get(tickerCount)+0.5));
 				}
 				tickerCount ++;
 			}
+			costHistory[i] = cost; // records epochs cost
+			accuracyInHistory[i] = numCorrectInSample * 1.0 / numTotal; // returns double %accuracy
+			//accuracyOutHistory[i] = nn.testAccuracyOutSample(); // reut
 			System.out.println(i+"th iteration");
 			System.out.println("Cost: " + cost);
+
 			System.out.println("--");
 			cost = 0;
+		}
+		System.out.println("Cost History:");
+		for (double dub : costHistory){
+			System.out.println(dub);
+		}
+		System.out.println("Accuracy-In-Sample History:");
+		for (double dub : accuracyInHistory){
+			System.out.println(dub);
+		}
+		System.out.println("Accuracy-Out-of-Sample History:");
+		for (double dub : accuracyOutHistory){
+			System.out.println(dub);
 		}
 	}
 
@@ -81,8 +105,14 @@ public class DriverV2{
 		String ticker = args[0];
 
 		if(ticker.equals("train")){
-      DriverV2 network = new DriverV2(80,2,10000);
+      DriverV2 network = new DriverV2(60,1,100);
 			network.writeMasterData();
+			System.out.println("got it");
+			// System.out.println(Datafeed.getNewestPrice(Datafeed.getTickerList().get(0))/1000); 
+			// System.out.println(network.createInputs(Datafeed.getTickerList().get(0)).length);
+			// for (double i : network.createInputs(Datafeed.getTickerList().get(0))){
+			// 	System.out.println(i);
+//			}
 			network.feedAll();
 		}
   }
