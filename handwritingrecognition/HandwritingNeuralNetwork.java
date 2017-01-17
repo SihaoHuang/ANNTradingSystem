@@ -33,15 +33,13 @@ public class HandwritingNeuralNetwork{
 		for (int i = 0; i < numIters; i++){        // every iteration: feed every data example loaded 
 			
 			a.feedDataExamples(handData.dataExamples);  //handData.dataExamples is an ArrayList with double[][] example entries (each example contains 2 double[] arrays)
-			if (i % 100 == 0){
+			if (i % 10 == 0){
 				System.out.println("Test Accuracy:");
-				System.out.println("The following data is given in the format (predicted digit, actual digit)")
+				System.out.println("The following data is given in the format (predicted digit, actual digit)");
 				System.out.println(a.testAccuracy(vandData.dataExamples));	
 			}
 		}
 		
-
-
 	}
 
 
