@@ -9,6 +9,9 @@ public class DriverV2{
 
 	ArrayList<double[]> masterTestData = new ArrayList<double[]>();
 	ArrayList<Double> masterTestTarget = new ArrayList<Double>();
+
+
+
   NeuralNetwork nn;
   int iterations = 0;
 	
@@ -26,7 +29,6 @@ public class DriverV2{
 		out.addAll(Convolutions.gaussianNormalization(Datafeed.getVolumeSeries(ticker)));
 		return typeCastDouble(out.toArray(new Double[out.size()]));
   }
-
 	public void writeMasterData(){
 		int tickerCount = 0;
 		while (tickerCount < 400){ 
@@ -59,7 +61,7 @@ public class DriverV2{
 
 		for (int i = 0; i < iterations; i++){
 			int tickerCount = 0;
-			while (tickerCount < Datafeed.getTickerList().size()){ //goes through an trains on all stocks in the S&P500 inex
+			while (tickerCount < 400){ //goes through an trains on all stocks in the S&P500 inex
 				double[] target = new double[] {masterTarget.get(tickerCount) + .5};
 
 				nn.feedData(masterTraining.get(tickerCount),target);
@@ -78,12 +80,16 @@ public class DriverV2{
 					System.out.println("Target is: " + (masterTarget.get(tickerCount)+0.5));
 				}
 				tickerCount ++;
-				
-
+			}
+			tickerCount = 0;
+			while (tickerCount < masterTestData.size()){
 				double[] targetO = new double[] {masterTestTarget.get(tickerCount)+ .5}; // this tests model on out of sample masterTestTarget and MasterTestData 
 				if (nn.feedDataTest(masterTestData.get(tickerCount),targetO)){
 					numCorrectOutSample += 1;
+					System.out.println("heppend");
 				}
+				System.out.println("accuracy out of sample being tested "+tickerCount);
+				tickerCount ++;
 			}
 			costHistory[i] = cost; // records epochs cost
 			accuracyInHistory[i] = numCorrectInSample * 1.0 / numTotal; // returns double %accuracy
@@ -117,26 +123,26 @@ public class DriverV2{
 		return out;
 	}
 
-	public String giveRecommendation(String ticker){
-		//check if valid ticker
-		double[] stockdata; // fetches stock data
-		double prediction = nn.feedDataAsk(stockdata);
-		String action = "";
-		if (prediction > 0){
-			action = "BUY";
-		}
-		else{
-			action = "SELL";
-		}
-		return "Our recommendation for "+ ticker + " is to " + action;
-	}
+	// public String giveRecommendation(String ticker){
+	// 	//check if valid ticker
+	// 	double[] stockdata; // fetches stock data
+	// 	double prediction = nn.feedDataAsk(stockdata);
+	// 	String action = "";
+	// 	if (prediction > 0){
+	// 		action = "BUY";
+	// 	}
+	// 	else{
+	// 		action = "SELL";
+	// 	}
+	// 	return "Our recommendation for "+ ticker + " is to " + action;
+	// }
 	
 	public static void main(String[] args){
 
 		String ticker = args[0];
 
 		if(ticker.equals("train")){
-      DriverV2 network = new DriverV2(60,1,100);
+      DriverV2 network = new DriverV2(160,1,10);
 			network.writeMasterData();
 			//network.writeTestData();             // here write master test data pls
 

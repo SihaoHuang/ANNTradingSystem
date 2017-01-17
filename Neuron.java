@@ -27,7 +27,7 @@ class Neuron{
 				System.out.println("null");
 			}
 			else{
-				Double weight = Math.random() * .02 - .01;  //change weighths here
+				Double weight = Math.random() * .001 - .0005;  //change weighths here
 				outputNeurons.add(connectNeuron);
 				outputWeights.put(connectNeuron, weight);
 			}

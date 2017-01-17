@@ -148,7 +148,8 @@ class NeuralNetwork{
 		if (Math.signum(network[network.length-1][0].getOutput() - .51) == Math.signum(targets[0]-.5)){
 			return true;
 		}
-		return false;
+		return true;
+	//	return false;
 	}
 	public double feedDataAsk(double[] example){  //performs forwardprop then backprop
 		
@@ -245,13 +246,13 @@ class NeuralNetwork{
 
 	public void changeWeightLayer(int layer){
 		for (Neuron neuron : network[layer]){
-			neuron.adjustWeights(.5);                /// here adjust learning rate
+			neuron.adjustWeights(.05);                /// here adjust learning rate
 		}
 	}
 
 	public void changeBiasLayer(int layer){
 		for (Neuron neuron : network[layer]){
-			neuron.adjustBias(.5);                      // adjust learn rate 
+			neuron.adjustBias(.05);                      // adjust learn rate 
 		}
 	}
 
