@@ -1,3 +1,5 @@
+package handwritingrecognition;
+
 //handwrittenData
 import java.util.ArrayList;
 

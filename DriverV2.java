@@ -1,4 +1,5 @@
 import financialdata.*;
+import handwritingrecognition.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 
