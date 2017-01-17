@@ -80,6 +80,11 @@ public class Datafeed{
     return sectors.get(tickers.indexOf(ticker));
   }
 
+  public static Double getLastClose(String ticker){
+    NormalStock st = StockFetcher.getStock(ticker);
+    return st.getPreviousClose();
+  }
+
   public static void printFundementals(String ticker){
     NormalStock st = StockFetcher.getStock(ticker);
 		System.out.println("Price: " + st.getPrice());

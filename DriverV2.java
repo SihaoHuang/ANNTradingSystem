@@ -35,7 +35,9 @@ public class DriverV2{
 		int tickerCount = 0;
 		while (tickerCount < 400){ 
 			masterTraining.add(createInputs(Datafeed.getTickerList().get(tickerCount)));
-			masterTarget.add(Datafeed.getNewestPrice(Datafeed.getTickerList().get(tickerCount))/1000);
+			double newest = Datafeed.getNewestPrice(Datafeed.getTickerList().get(tickerCount));
+			double old = Datafeed.getLastClose(Datafeed.getTickerList().get(tickerCount));
+			masterTarget.add((newest-old)/newest); 
 			tickerCount ++;
 		}	
 	}
@@ -44,7 +46,9 @@ public class DriverV2{
 		int tickerCount = 400;
 		while (tickerCount < Datafeed.getTickerList().size()){ 
 			masterTestData.add(createInputs(Datafeed.getTickerList().get(tickerCount)));
-			masterTestTarget.add(Datafeed.getNewestPrice(Datafeed.getTickerList().get(tickerCount))/1000);
+			double newest = Datafeed.getNewestPrice(Datafeed.getTickerList().get(tickerCount));
+			double old = Datafeed.getLastClose(Datafeed.getTickerList().get(tickerCount));
+			masterTestTarget.add((newest-old)/newest); 
 			tickerCount ++;
 		}	
 	}
@@ -136,6 +140,7 @@ public class DriverV2{
 		double[] stockdata = masterStockData.get(Datafeed.getTickerList().indexOf(ticker));
 		double prediction = nn.feedDataAsk(stockdata);
 		String action = "";
+		System.out.println(prediction);
 		if (prediction > 0){
 			action = "BUY";
 		}
