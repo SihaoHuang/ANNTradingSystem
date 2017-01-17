@@ -1,6 +1,6 @@
 # Advanced Machine Learning Trading System
 <h3>Full implementation of a backpropagating neural network and financial datafeed without the use of any preexisting libraries.
-This is a project for Stuyvesant's AP Computer Science class, taught by <u>Mr. Konstantinovich</u>. Made by LongXShortY.</h3>
+This is a project for Stuyvesant's AP Computer Science class, taught by <b>Mr. Konstantinovich</b>. Made by LongXShortY.</h3>
 
 <b>Brief introduction to the project:</b><br>
 The neural network, which forms the core of this project, consists of then Neuron class and the NeuralNetwork class. The network is formed by a known number of inputs and outputs, together with a grid of interconnected neurons with a specified depth and width. The weights and are initialized and stored in arrays, where they are subsequently adjusted through backpropagation during training. <br> <br> 
