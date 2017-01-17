@@ -108,7 +108,7 @@ class NeuralNetwork{
 	public double testAccuracyIn(ArrayList<double[][]> data){
 		double accurate = 0.0;
 		double total = 0.0;
-		
+
 		return accurate / total;
 	}
 	public void feedData(double[] example, double[] targets){  //performs forwardprop then backprop
@@ -134,6 +134,33 @@ class NeuralNetwork{
 		// if (i% 250 == 0){
 			// System.out.println(this.toStringOut());
 		// }
+	}
+	public boolean feedDataTest(double[] example, double[] targets){  //performs forwardprop then backprop
+		
+		for (int i = 0; i < example.length; i++){ //set neuron.output to example[@postion] (inputs) 
+			network[0][i].setOutput(example[i]);  // input neurons only contain attribute neuron.output
+		}
+
+		for (int layer = 1; layer < network.length; layer++){ // fire every layer except 0th
+			this.fireLayer(layer);
+		}
+
+		if (Math.signum(network[network.length-1][0].getOutput() - .51) == Math.signum(targets[0]-.5)){
+			return true;
+		}
+		return false;
+	}
+	public double feedDataAsk(double[] example){  //performs forwardprop then backprop
+		
+		for (int i = 0; i < example.length; i++){ //set neuron.output to example[@postion] (inputs) 
+			network[0][i].setOutput(example[i]);  // input neurons only contain attribute neuron.output
+		}
+
+		for (int layer = 1; layer < network.length; layer++){ // fire every layer except 0th
+			this.fireLayer(layer);
+		}
+
+		return network[network.length-1][0].getOutput()-.5;
 	}
 	public String toStringOutLast(){ // return readable list of output layer's outputs
 		String out = "";

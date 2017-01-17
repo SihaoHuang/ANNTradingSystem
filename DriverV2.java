@@ -1,5 +1,4 @@
 import financialdata.*;
-import handwritingrecognition.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -7,6 +6,9 @@ public class DriverV2{
 
 	ArrayList<double[]> masterTraining = new ArrayList<double[]>(); // data is read and stored offline
 	ArrayList<Double> masterTarget = new ArrayList<Double>();
+
+	ArrayList<double[]> masterTestData = new ArrayList<double[]>();
+	ArrayList<Double> masterTestTarget = new ArrayList<Double>();
   NeuralNetwork nn;
   int iterations = 0;
 	
@@ -67,17 +69,22 @@ public class DriverV2{
 					System.out.println("Target is: " + (masterTarget.get(tickerCount)+0.5));
 				}
 				tickerCount ++;
+				
+
+				double[] targetO = new double[] {masterTestTarget.get(tickerCount)+ .5}; // this tests model on out of sample masterTestTarget and MasterTestData 
+				if (nn.feedDataTest(masterTestData.get(tickerCount),targetO)){
+					numCorrectOutSample += 1;
+				}
 			}
 			costHistory[i] = cost; // records epochs cost
 			accuracyInHistory[i] = numCorrectInSample * 1.0 / numTotal; // returns double %accuracy
-			//accuracyOutHistory[i] = nn.testAccuracyOutSample(); // reut
+			accuracyOutHistory[i] =  numCorrectOutSample * 1.0 / numTotal;// reut
 			System.out.println(i+"th iteration");
 			System.out.println("Cost: " + cost);
-
 			System.out.println("--");
 			cost = 0;
 		}
-		System.out.println("Cost History:");
+		System.out.println("Cost History:");                 // display cost and accuracy arrays
 		for (double dub : costHistory){
 			System.out.println(dub);
 		}
@@ -100,20 +107,30 @@ public class DriverV2{
 		}
 		return out;
 	}
+
+	public String giveRecommendation(String ticker){
+		//check if valid ticker
+		double[] stockdata; // fetches stock data
+		double prediction = nn.feedDataAsk(stockdata);
+		String action = "";
+		if (prediction > 0){
+			action = "BUY";
+		}
+		else{
+			action = "SELL";
+		}
+		return "Our recommendation for "+ ticker + " is to " + action;
+	}
 	
 	public static void main(String[] args){
 
 		String ticker = args[0];
 
 		if(ticker.equals("train")){
-      DriverV2 network = new DriverV2(60,1,100);
+      		DriverV2 network = new DriverV2(60,1,100);
 			network.writeMasterData();
-			System.out.println("got it");
-			// System.out.println(Datafeed.getNewestPrice(Datafeed.getTickerList().get(0))/1000); 
-			// System.out.println(network.createInputs(Datafeed.getTickerList().get(0)).length);
-			// for (double i : network.createInputs(Datafeed.getTickerList().get(0))){
-			// 	System.out.println(i);
-//			}
+			//network.writeTestData();             // here write master test data pls
+
 			network.feedAll();
 		}
   }
