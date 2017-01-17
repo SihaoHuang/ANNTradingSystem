@@ -29,9 +29,18 @@ public class DriverV2{
 
 	public void writeMasterData(){
 		int tickerCount = 0;
-		while (tickerCount < Datafeed.getTickerList().size()){ 
+		while (tickerCount < 400){ 
 			masterTraining.add(createInputs(Datafeed.getTickerList().get(tickerCount)));
 			masterTarget.add(Datafeed.getNewestPrice(Datafeed.getTickerList().get(tickerCount))/1000);
+			tickerCount ++;
+		}	
+	}
+
+	public void writeTestData(){
+		int tickerCount = 400;
+		while (tickerCount < Datafeed.getTickerList().size()){ 
+			masterTestData.add(createInputs(Datafeed.getTickerList().get(tickerCount)));
+			masterTestTarget.add(Datafeed.getNewestPrice(Datafeed.getTickerList().get(tickerCount))/1000);
 			tickerCount ++;
 		}	
 	}
