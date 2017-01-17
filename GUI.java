@@ -54,26 +54,26 @@ public class GUI extends JFrame implements ActionListener{
   
   static StyleContext sc = new StyleContext();
   static final DefaultStyledDocument tickerBox = new DefaultStyledDocument(sc);
-  public static void main(String args[]) 
-  {
-    // try 
-    // {
-    //     UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-    // }
-    // catch ( ClassNotFoundException e ) 
-    // {
-    // }
-    // catch ( InstantiationException e ) 
-    // {
-    // }
-    // catch ( IllegalAccessException e ) 
-    // {
-    // }
-    // catch ( UnsupportedLookAndFeelException e ) 
-    // {
-    // }
-    theGUI = new GUI();
-  } 
+  // public static void main(String args[]) 
+  // {
+  //   // try 
+  //   // {
+  //   //     UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+  //   // }
+  //   // catch ( ClassNotFoundException e ) 
+  //   // {
+  //   // }
+  //   // catch ( InstantiationException e ) 
+  //   // {
+  //   // }
+  //   // catch ( IllegalAccessException e ) 
+  //   // {
+  //   // }
+  //   // catch ( UnsupportedLookAndFeelException e ) 
+  //   // {
+  //   // }
+  //   theGUI = new GUI();
+  // } 
 
   public void actionPerformed(ActionEvent e) {
     if ("Search".equals(e.getActionCommand())){  

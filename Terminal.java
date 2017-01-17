@@ -5,7 +5,7 @@ import handwritingrecognition.*;
 
 public class Terminal {
     
-    private static final String helpText = "You can try the following commands: \n equity<GO> opens an applet to search for S&P 500 component stocks \n";
+    private static final String helpText = "You can try the following commands: \n equity<GO> opens an applet to search for S&P 500 component stocks \n handwriting recognition<GO> launches the handwriting applet to verify neural network performance \n GUI<GO> launches the WIP GUI";
     public static void main(String[] args){
 
     System.out.println("Welcome to the neural network price stock prediction system. Type help<GO> for more information. Type exit<GO> to quit or exit current mode.");
@@ -22,7 +22,7 @@ public class Terminal {
         if (input.equals("equity")) {
             // String ticker;
 			System.out.println();
-            System.out.println("You are now in equity mode. Type list stocks<GO> to see the list of tickers you can inquire about. exit<GO> will exit this mode.");
+            System.out.println("You are now in equity mode.\n list stocks<GO> to see the list of tickers you can inquire about\n neural network<GO> brings up the stock price predictor \n exit<GO> will exit this mode.");
             terminalInput = new Scanner(System.in);
             input = terminalInput.nextLine();
 			Datafeed.loadStocks();
@@ -107,18 +107,28 @@ public class Terminal {
         if (input.equals("handwriting recognition")) {
             terminalInput = new Scanner(System.in);
             input = terminalInput.nextLine();
-            boolean runApplet = true;
-            while (runApplet == true) {
-                if (input.equals("exit")) runApplet = false;
+            if (input.equals("exit")) runApplet = false;
+            else{
+                HData a = new HData();
+		        a.loadData();
+		        a.loadData2();
+		        a.loadData3();
+		        a.loadData4();
+		        a.loadData5();
+		        a.loadData6();
+		        a.loadData7();
+		        a.loadData8();
+		        System.out.println(a.dataExamples);
             }
         }
 
         if (input.equals("GUI")) {
+            System.out.println("Launch GUI?(under construction) Otherwise exit.");
             terminalInput = new Scanner(System.in);
             input = terminalInput.nextLine();
-            boolean runApplet = true;
-            while (runApplet == true) {
-                if (input.equals("exit")) runApplet = false;
+            if (input.equals("exit")) runApplet = false;
+            else {
+                GUI theGUI = new GUI();
             }
         }
 
