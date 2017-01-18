@@ -92,6 +92,7 @@ public class DriverV2{
 				}
 				tickerCount ++;
 			}
+
 			tickerCount = 0;
 			while (tickerCount < masterTestData.size()){
 				double[] targetO = new double[] {masterTestTarget.get(tickerCount)+ .5}; // this tests model on out of sample masterTestTarget and MasterTestData 
