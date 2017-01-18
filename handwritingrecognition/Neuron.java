@@ -27,6 +27,7 @@ class Neuron{
 			}
 			else{
 				outputNeurons.add(connectNeuron);
+				new_weight = Math.random() * .1 - .05;
 				outputWeights.put(connectNeuron, new_weight);
 			}
 		}
@@ -59,7 +60,7 @@ class Neuron{
 		}
 	}
 	public void adjustBias(double learn_rate){
-		bias -= delta; 
+		bias -= (delta * learn_rate); 
 	}
 	public void backpropagate(){  // calculate all deltas
 		// add errors from layer ahead
