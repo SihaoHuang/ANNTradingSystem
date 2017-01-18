@@ -8,7 +8,7 @@ Fundemental data is obtained from YahooFinance through a web query. Volume and p
 The network is trained with the processed input set to a output value, and is repeated 503 times for every stock in the S&P500 index to allow it to generalize price movement characteristics. This whole process forms a single iteration, which is then repeated a specified number of times to decrease the cost function. This needs to be tweaked so that overfitting does not occur. <br> <br> 
 
 <b>Instructions:</b> <br>
-Compile and run Terminal.java. Instructions will be presented. This allows access of equity mode (financial datafeed and neural network), handwriting recognition mode, and GUI mode. Note that training the network will take a very long period of time, typically ranging from 1 hour to 10 hours. <b>A good network configuration to test with would be 80 wide by 3 deep by 40 iterations (20-30 minute runtime), though thousands of iterations are needed to produce good results.</b><br>
+Compile and run Terminal.java. Instructions will be presented. This allows access of equity mode (financial datafeed and neural network), handwriting recognition mode, and GUI mode. Note that training the network will take a very long period of time, typically ranging from 1 hour to 10 hours. <b>A good network configuration to test with would be 200 wide by 1 deep by 100 iterations (20-30 minute runtime), though thousands of iterations are needed to produce good results.</b><br>
 
 <b>Known bug list:</b> <br> 
 -Terminal.java does not catch any wrong input formats or invalid user inputs (such as invalid tickers), so it would exit the program
