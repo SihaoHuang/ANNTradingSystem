@@ -11,6 +11,6 @@ The network is trained with the processed input set to a output value, and is re
 Compile and run Terminal.java. Instructions will be presented. This allows access of equity mode (financial datafeed and neural network), handwriting recognition mode, and GUI mode. Note that training the network will take a very long period of time, typically ranging from 1 hour to 10 hours. <b>A good network configuration to test with would be 80 wide by 3 deep by 20 iterations, though thousands of iterations are needed to produce good results.</b><br>
 
 <b>Known bug list:</b> <br> 
--Terminal.java does not catch any wrong input formats or invalid user inputs
-
-
+-Terminal.java does not catch any wrong input formats or invalid user inputs (such as invalid tickers), so it would exit the program
+-A rather careless bug: training works much worse on days when market is not open as the output was derived using currentPrice-lastClosingPrice, instead of previous data point
+-Not a bug, but note that exit does not work when a command is running
