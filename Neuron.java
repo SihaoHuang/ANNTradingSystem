@@ -17,7 +17,7 @@ class Neuron{
 
 	public Neuron(){
 		// bias = Math.random()/14.0 - 1.0/28.0;
-		bias = Math.random()/14.0 - 1.0/28.0;
+		bias = Math.random() * .01 - .005;
 	}
 
 	public void addOut(Neuron[] outNeurons, Double new_weight){    //holds out-weights
@@ -27,7 +27,7 @@ class Neuron{
 				System.out.println("null");
 			}
 			else{
-				Double weight = Math.random() * .001 - .0005;  //change weighths here
+				Double weight = Math.random() * .01 - .005;  //change weighths here
 				outputNeurons.add(connectNeuron);
 				outputWeights.put(connectNeuron, weight);
 			}
