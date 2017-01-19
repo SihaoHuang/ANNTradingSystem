@@ -12,5 +12,9 @@ Compile and run Terminal.java. Instructions will be presented. This allows acces
 
 <b>Known bug list:</b> <br> 
 -Terminal.java does not catch any wrong input formats or invalid user inputs (such as invalid tickers), so it would exit the program
--A rather careless bug: training works much worse on days when market is not open as the output was derived using currentPrice-lastClosingPrice, instead of previous data point
--Not a bug, but note that exit does not work when a command is running
+-A rather careless bug: training works much worse (or does not work at all) on days when market is not open as the output was derived using currentPrice-lastClosingPrice, instead of previous data point
+-Not a bug, but note that exit does not work when a command is running <br><br>
+
+<b>Resources:</b><br>
+https://www.tensorflow.org/ - Powerful open source machine learning/numerical computation library with large user base and many resources <br>
+https://www.mathworks.com/products/neural-network.html - Many machine learning textbooks use the Matlab neural network toolbox. It also has good integration with datafeeds and the financial toolbox. <br> 
